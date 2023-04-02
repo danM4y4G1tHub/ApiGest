@@ -1,0 +1,60 @@
+*{
+    margin: 0;
+}
+
+:root{
+    --colorYellowLog: #ebce32;
+    --colorYellowCard: #e6c92d;
+    --coloBlack: #181816;
+    --colorBlackSect: #2d2a17;
+    --colorBlackCard: #343530;
+}
+
+/*------------------------- Header -----------------------*/
+header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 90px;
+    z-index: 100;
+    background: var(--coloBlack);
+    border-radius: 0 0 30px 30px;
+}
+
+/*-------------             Nav-Bar           --------------*/
+.contenedor-logo{
+    width: 200px;
+}
+
+.logo{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.logo:hover{
+    color: var(--colorYellowLog);
+}
+
+.acceso{
+    margin-left: 100px;
+    padding: 7px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--colorYellowLog);
+    border-radius: 10px;
+}
+
+.acceso:hover{
+    color: #fff;
+}
+/*------------------------- Acciones -----------------------*/
+
+/*------------------------- Ofertas -----------------------*/
+
+/*------------------------- Nosotros -----------------------*/
+
+/*------------------------- Footer -----------------------*/

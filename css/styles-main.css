@@ -1,0 +1,292 @@
+*{
+    margin: 0;
+}
+
+:root{
+    --colorYellowLog: #ebce32;
+    --colorYellowCard: #e6c92d;
+    --coloBlack: #181816;
+    --colorBlackSect: rgb(30, 30, 30);
+    --colorBlackCard: #343530;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+/*------------------------- Header   -----------------------dairoto el mas tiza jajajajaj*/
+.nav-scrolled{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 90px;
+    z-index: 100;
+    background: #181816c7;
+    border-radius: 0 0 30px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 90px;
+    z-index: 100;
+    background: #181816;
+    border-radius: 0 0 30px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/*-------------             Nav-Bar           --------------*/
+.contenedor-logo{
+    width: 200px;
+}
+
+.logo{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.logo:hover{
+    color: var(--colorYellowLog);
+}
+
+.contenedor-nav{
+    display: flex;
+    justify-content: center;
+    width: 300px;
+}
+
+.menu-items{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-items{
+    display: flex;
+    list-style: none;
+    margin: 30px;
+}
+
+.list-items a{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    padding: 7px;
+}
+
+.list-items a:hover{
+    font-weight: bold;
+    background: #e6cf4d;
+    color: var(--coloBlack);
+    border-radius: 10px;
+}
+
+.acceso{
+    margin-left: 100px;
+    padding: 7px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--colorYellowLog);
+    border-radius: 10px;
+}
+
+.acceso:hover{
+    color: #fff;
+    background: var(--coloBlack);
+}
+
+/*-------------             Banner            --------------*/
+.content-present{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0px 110px 70px;
+    padding: 170px 0 0;
+}
+
+.content-present h1, h3, p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+}
+
+.content-present h1{
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.content-present h3{
+    font-size: 29px;
+    font-weight: normal;
+}
+
+.content-present p{
+    margin-left: 130px;
+    padding: 15px;
+    font-weight: bold;
+    color: #fff;
+    background: var(--coloBlack);
+    border-radius: 10px;
+}
+
+.contenedor{
+    background: url("../img/main/Banner-1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 100%;
+    height: 460px;
+    opacity: 0.9;
+}
+
+/*****************************************************************************************************************/
+
+/*------------------------- Acciones -----------------------*/
+
+.container-action{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
+    background: var(--colorBlackSect);
+}
+
+.content-action{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.container-action h2{
+    display: flex;
+    justify-content: space-around;
+    align-self: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    margin-top: 90px;
+    color: #fff;
+}
+
+.apicultor ul li{
+    list-style: square;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    font-size: 18px;
+    padding: 3px;
+}
+
+.apicultor #apic{
+    list-style: none;
+    margin-left: 240px;
+    padding: 20px;
+}
+
+.cliente ul li{
+    list-style: square;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    font-size: 18px;
+    padding: 3px;
+}
+
+.cliente #clie{
+    list-style: none;
+    margin-left: 130px;
+    padding: 20px;
+}
+/*-------------             
+
+/*****************************************************************************************************************/
+
+/*------------------------- Ofertas  -----------------------*/
+.container-ofertas{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 400px;
+    background: url(../img/main/Acciones.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.container-ofertas h2{
+    display: flex;
+    align-self: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    margin-top: 90px;
+}
+
+.tarjetas{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-y{
+    display: flex;
+    justify-content: center;
+    width:  140px;
+    height: 150px;
+    margin: 0 10px 0 5px;
+    padding:  0;
+    background: var(--colorYellowCard);
+    border: 2px solid #181816;
+    border-radius: 8px;
+}
+
+.card-y i{
+    margin: 20px auto auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: bolder;
+    color: var(--coloBlack);
+}
+
+.card-b{
+    display: flex;
+    justify-content: center;
+    width: 140px;
+    height: 150px;
+    margin: 0 10px 0 5px;
+    padding: 0;
+    background: var(--colorBlackCard);
+    border: 2px solid #181816;
+    border-radius: 8px;
+}
+
+.card-b i{
+    margin: 20px auto auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: bolder;
+    color: #fff;
+}
+/*****************************************************************************************************************/
+
+/*------------------------- Nosotros -----------------------*/
+
+
+/*****************************************************************************************************************/
+
+/*------------------------- Footer   -----------------------*/
+
