@@ -1,9 +1,7 @@
 window.addEventListener('scroll', function(){
-    var navbar = document.querySelector('.nav-scrolled');
+    var navbar = document.getElementById('h-scroll');
 
     if( this.window.screenY > 300 ){
-        navbar.getElementsByClassNam
-    } else {
-        navbar.classList.remove('navbar');
+        navbar.style.background = 181816;
     }
 });

@@ -9,23 +9,53 @@
 <body>
     <header>
         <div class="contenedor-logo">
-            <a class="logo"><i>ApiGest</i></a>
+            <a href="index.html" class="logo"><i>ApiGest</i></a>
         </div>
         <div class="contenedor-nav">
             <a href="index.html" class="acceso">Principal</a>
         </div>
     </header>
 
-    <section class="logueo">
-        <div>
-            <form action="">
+    <div class="contenedor-seccion">
+        <section class="opciones">
+            <div class="content-options">
+                <ul>
+                    <li><a href="user-guest-client.html">Invitado</a></li>
+                    <li><a href="login-solicitud.html">Solicitud</a></li>
+                    <li><a href="login-estado.html">Estado de solicitud</a></li>
+                </ul>
+            </div>
+        </section>
+    
+        <section class="logueo">
+            <div class="content-form">
+                <h3>¿No perteneces a la asociación?<a href="login-solicitud.html">"Iniciar Solicitud"</a></h3>
 
-            </form>
-        </div>
-    </section class="formulario">
-    <section class="notify">
+                <div class="formul">
+                    <form action="">
+                        <div class="user">
+                            <label>Usuario</label>
+                            <input id="user" type="text" placeholder="Usuario">
+                        </div>
+                        <div class="password">
+                            <label>Contraseña</label>
+                            <input id="pass" type="password" placeholder="Contraseña">
+                        </div>
+                        <div class="but">
+                            <input type="checkbox">Mostrar
+                            <button onclick="Submit()">Iniciar Sección</button>
+                        </div>
+                    </form>
+                </div>
 
-    </section>
+                <a href="login-registrar.html">¿Olvidaste tu contraseña?</a>
+            </div>
+        </section class="formulario">
+        <section class="notify">
+    
+        </section>
+    </div>
     <section></section>
+    <script src="js/app-login.js"></script>
 </body>
 </html>
