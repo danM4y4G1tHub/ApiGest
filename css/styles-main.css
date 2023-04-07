@@ -34,22 +34,22 @@ body{
 }
 
 .navbar{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 90px;
-    z-index: 100;
     background: #181816;
-    border-radius: 0 0 30px 30px;
-    position: fixed;
-    top: 0;
-    left: 0;
+}
+
+.ancho{
+    display: flex;
+    width: 80%;
+    height: 90px;
+    margin: auto;
 }
 
 /*-------------             Nav-Bar           --------------*/
 .contenedor-logo{
-    width: 200px;
+    display: flex;
+    align-items: center;
+    width: 20%;
+    height: 90px;
 }
 
 .logo{
@@ -63,31 +63,33 @@ body{
     color: var(--colorYellowLog);
 }
 
-.contenedor-nav{
+nav{
     display: flex;
     justify-content: center;
-    width: 300px;
+    align-items: center;
+    width: 70%;
+    height: 90px;
 }
 
 .menu-items{
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
 .list-items{
     display: flex;
+    margin: 20px;
     list-style: none;
-    margin: 30px;
 }
 
 .list-items a{
+    display: flex;
+    padding: 7px;
+    text-decoration: none;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     font-weight: bold;
-    text-decoration: none;
     color: #fff;
-    padding: 7px;
 }
 
 .list-items a:hover{
@@ -99,7 +101,9 @@ body{
 }
 
 .acceso{
-    margin-left: 100px;
+    display: flex;
+    align-self: center;
+    margin: auto;
     padding: 7px;
     text-decoration: none;
     font-family: Arial, Helvetica, sans-serif;
@@ -107,12 +111,13 @@ body{
     font-weight: bold;
     background: var(--colorYellowLog);
     border-radius: 10px;
+    color: var(--colorBlack);
 }
 
 .acceso:hover{
     color: #fff;
 }
-
+/*
 /*-------------             Banner            --------------*/
 .content-present{
     display: flex;
