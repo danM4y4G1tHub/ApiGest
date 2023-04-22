@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApiGest-Login</title>
+    <link rel="stylesheet" href="css/Styles-login.css">
+</head>
+
+<body>
+    <header>
+        <div class="ancho">
+            <div class="contenedor-logo">
+                <a href="index.html" class="logo"><i>ApiGest</i></a>
+            </div>
+            <div class="relleno"></div>
+            
+            <a href="index.html" class="acceso">Principal</a>
+        </div>
+    </header>
+
+    <div class="contenedor-seccion">
+        <section class="opciones">
+            <div class="content-options">
+                <ul>
+                    <li><a href="user-guest-client.html">Invitado</a></li>
+                    <li><a href="login-solicitud.html">Solicitud</a></li>
+                    <li><a href="login-estado.html">Estado de solicitud</a></li>
+                </ul>
+            </div>
+        </section>
+    
+        <section class="logueo">
+            <div class="content-form">
+                <h3>¿No perteneces a la Asociación?<a href="login-solicitud.html">"Iniciar Solicitud"</a></h3>
+
+                <div class="contenedor-formulario">
+                    <div class="wrap">
+                        <form action="" class="formulario" name="formulario_registro" method="post">
+                            <div>
+                                <div class="input-group">
+                                    <input type="text" id="user" name="user">
+                                    <label class="label" for="user">Usuario:</label>
+                                </div>
+                                <div class="input-group">
+                                    <input type="password" id="pass" name="pass">
+                                    <label class="label" for="pass">Contraseña:</label>
+                                </div>
+                                <div class="input-group checkbox">
+                                    <input type="checkbox" name="ver" id="ver" value="false">
+                                    <label for="ver">Mostrar</label>
+                                </div>
+                                <input type="submit" id="btn-submit" value="Enviar">
+                            </div>
+                        </form>
+                </div>
+
+                <a class="olvido" href="login-registrar.html">¿Olvidaste tu contraseña?</a>
+            </div>
+        </section class="formulario">
+        <section class="notify">
+    
+        </section>
+    </div>
+    <section></section>
+    <script src="js/app-login.js"></script>
+</body>
+</html>

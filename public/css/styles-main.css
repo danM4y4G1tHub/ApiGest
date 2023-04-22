@@ -1,0 +1,414 @@
+*{
+    margin: 0;
+}
+
+:root{
+    --colorYellowLog: #ebce32;
+    --colorYellowCard: #e6c92d;
+    --colorBlack: #181816;
+    --colorBlackSect: rgb(30, 30, 30);
+    --colorBlackCard: #343530;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    background: var(--colorYellowLog);
+}
+
+a{
+    text-decoration: none;
+}
+
+/*------------------------- Header   -----------------------dairoto el mas tiza jajajajaj*/
+.nav-scrolled{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 90px;
+    z-index: 100;
+    background: #181816c7;
+    border-radius: 0 0 30px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.navbar{
+    background: #181816;
+}
+
+.ancho{
+    display: flex;
+    width: 80%;
+    height: 90px;
+    margin: auto;
+}
+
+/*-------------             Nav-Bar           --------------*/
+.contenedor-logo{
+    display: flex;
+    align-items: center;
+    width: 20%;
+    height: 90px;
+}
+
+.logo{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.logo:hover{
+    color: var(--colorYellowLog);
+}
+
+nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 90px;
+}
+
+.menu-items{
+    display: flex;
+    align-items: center;
+}
+
+.list-items{
+    display: flex;
+    margin: 20px;
+    list-style: none;
+}
+
+.list-items a{
+    display: flex;
+    padding: 7px;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.list-items a:hover{
+    font-weight: bold;
+    background: #e6cf4d;
+    color: var(--colorBlack);
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+.acceso{
+    display: flex;
+    align-self: center;
+    margin: auto;
+    padding: 7px;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--colorYellowLog);
+    border-radius: 10px;
+    color: var(--colorBlack);
+}
+
+.acceso:hover{
+    color: #fff;
+}
+
+/*-------------             Banner            --------------*/
+.content-present{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0px 110px 70px;
+    padding: 170px 0 0;
+}
+
+.content-present h1, h3, p{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+}
+
+.content-present h1{
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.content-present h3{
+    font-size: 29px;
+    font-weight: normal;
+}
+
+.content-present p{
+    margin-left: 130px;
+    padding: 15px;
+    font-weight: bold;
+    color: #fff;
+    background: var(--colorBlack);
+    border-radius: 10px;
+}
+
+.contenedor{
+    background: url("../img/main/Banner-1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 100%;
+    height: 460px;
+    opacity: 0.9;
+}
+
+/*****************************************************************************************************************/
+
+/*------------------------- Acciones -----------------------*/
+
+.container-action{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
+    background: var(--colorBlack);
+}
+
+.content-action{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.container-action h2{
+    display: flex;
+    justify-content: space-around;
+    align-self: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    margin-top: 90px;
+    color: #fff;
+}
+
+.apicultor ul li{
+    list-style: square;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    font-size: 18px;
+    padding: 3px;
+}
+
+.apicultor #apic{
+    list-style: none;
+    margin-left: 240px;
+    padding: 20px;
+}
+
+.cliente ul li{
+    list-style: square;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    font-size: 18px;
+    padding: 3px;
+}
+
+.cliente #clie{
+    list-style: none;
+    margin-left: 130px;
+    padding: 20px;
+}
+/*-------------             
+
+/*****************************************************************************************************************/
+
+/*------------------------- Ofertas  -----------------------*/
+.container-ofertas{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height: 400px;
+    background: url(../img/main/Acciones.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.container-ofertas h2{
+    display: flex;
+    align-self: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    margin-top: 45px;
+}
+
+.tarjetas{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-y{
+    display: flex;
+    justify-content: center;
+    width:  140px;
+    height: 150px;
+    margin: 0 10px 0 5px;
+    padding:  0;
+    background: var(--colorYellowCard);
+    border: 2px solid #181816;
+    border-radius: 8px;
+}
+
+.card-y i{
+    margin: 20px auto auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: bolder;
+    color: var(--coloBlack);
+}
+
+.card-b{
+    display: flex;
+    justify-content: center;
+    width: 140px;
+    height: 150px;
+    margin: 0 10px 0 5px;
+    padding: 0;
+    background: var(--colorBlackCard);
+    border: 2px solid #181816;
+    border-radius: 8px;
+}
+
+.card-b i{
+    margin: 20px auto auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: bolder;
+    color: #fff;
+}
+/*****************************************************************************************************************/
+
+/*------------------------- Nosotros -----------------------*/
+.us{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    background: var(--colorYellowLog);
+}
+
+.us h2{
+    display: flex;
+    align-self: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+}
+
+.content-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.uci{
+    display: flex;
+    align-items: center;
+    margin-right: 130px;
+}
+
+.uci .menu-items{
+    display: flex;
+    flex-direction: column;
+}
+
+.uci .menu-items li{
+    list-style: none;
+    align-self: flex-start;
+    padding-bottom: 7px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #000;
+}
+
+.uci .menu-items li a{
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.uci .menu-items li a:hover{
+    color: var(--colorBlack);
+}
+
+.dev{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin-left: 150px;
+}
+
+.dev .menu-items{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.dev .menu-items li{
+    list-style: none;
+    align-self: flex-start;
+    padding-bottom: 7px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #000;
+}
+
+.dev .menu-items li a{
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.dev .menu-items li a:hover{
+    color: var(--colorBlack);
+}
+/*****************************************************************************************************************/
+
+/*------------------------- Footer   -----------------------*/
+footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 90px;
+    background: var(--colorBlack);
+    border-radius: 30px 30px 0 0px;
+}
+
+footer h2, p{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: #fff;
+    padding: 5px 0 5px 0;
+}
+
+.redes-sociales{
+    display: flex;
+}

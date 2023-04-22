@@ -1,0 +1,343 @@
+*{
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root{
+    --colorYellowLog: #ebce32;
+    --light-primary: #e6c92d;
+    --colorBlack: #181816;
+    --colorBlackCard: #343530;
+    --ligthBlack: #454642;
+    --white: #f2f2f2;
+    --divider: #b6b6b6;
+    --error: #d32f2f;
+    --borde: 2px;
+}
+
+a{
+    text-decoration: none;
+}
+
+/*------------------------- Header -----------------------*/
+header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 90px;
+    background: var(--colorBlack);
+    border-radius: 0 0 30px 30px;
+}
+
+.ancho{
+    display: flex;
+    width: 80%;
+    height: 90px;
+    margin: auto;
+}
+
+/*-------------             Nav-Bar           --------------*/
+.contenedor-logo{
+    display: flex;
+    align-items: center;
+    width: 20%;
+    height: 90px;
+}
+
+.logo{
+    margin: auto;
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.logo:hover{
+    color: var(--colorYellowLog);
+}
+
+.relleno{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 90px;
+}
+
+.acceso{
+    display: flex;
+    align-self: center;
+    margin: auto;
+    padding: 7px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--colorYellowLog);
+    border-radius: 10px;
+    color: var(--colorBlack);
+}
+
+.acceso:hover{
+    color: #fff;
+}
+
+/*------------------------- Opciones -----------------------*/
+.contenedor-seccion{
+    display: flex;
+}
+
+.opciones{
+    display: flex;
+    align-items: flex-start;
+    width: 30%;
+    height: 573px;
+    background: var(--colorYellowLog);
+    border-radius: 25px 25px 0 0;
+}
+
+.content-options{
+    display: flex;
+    justify-content: start;
+    margin: 70px 20px;
+}
+
+.content-options li{
+    margin: 4px;
+    list-style: none;
+    padding: 5px;
+}
+
+.content-options li a{
+    padding: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--colorBlack);
+    margin: auto;
+}
+
+.content-options li a:hover{
+    background: var(--colorBlack);
+    border-radius: 10px;
+    color: #fff;
+}
+
+/*------------------------- Formulario -----------------------*/
+.logueo{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 573px;
+    background: var(--colorBlackCard);
+    border-radius: 25px 25px 0 0;
+}
+
+.content-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+}
+
+.content-form h3{
+    font-size: 16px;
+    color: #c4af39;
+    font-weight: bold;
+    margin: 30px 20px 50px 20px;
+}
+
+.content-form h3 a{
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.content-form h3 a{
+    padding: 5px;
+}
+
+.content-form h3 a:hover{
+    color: var(--colorYellowLog);
+}
+
+.olvido{
+    display: flex;
+    justify-content: center;
+    margin: 30px 30px 30px 70px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.olvido:hover{
+    color: var(--light-primary);
+}
+
+/* -----------------   Caja de formulario  ----------------- */
+
+.contenedor-formulario{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    height: 60%;
+    color: var(--white);
+    padding: 10px;
+}
+
+.wrap{
+    display: flex;
+    width: 90%;
+    max-width: 500px;
+    padding: 40px;
+    margin: auto;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.contenedor-formulario .formulario{
+    width: 100%;
+    margin: auto;
+}
+
+.contenedor-formulario .formulario .input-group{
+    position: relative;
+    margin-bottom: 32px;
+}
+
+.contenedor-formulario .formulario .input-group input[type="text"],
+.contenedor-formulario .formulario .input-group input[type="password"]{
+    font-size: 16px;
+    color: var(--colorBlack);
+    width: 94%;
+    outline: none;
+    padding: 8px;
+    background: none;
+    border: none;
+    border-bottom: var(--borde) solid var(--ligthBlack);
+}
+
+.contenedor-formulario .formulario .input-group input[type="text"]:focus,
+.contenedor-formulario .formulario .input-group input[type="text"]:active,
+.contenedor-formulario .formulario .input-group input[type="password"]:focus,
+.contenedor-formulario .formulario .input-group input[type="password"]:active{
+    outline: none;
+    border-bottom: var(--borde) solid var(--colorYellowLog);
+}
+
+.contenedor-formulario .formulario .input-group input[type="text"].error,
+.contenedor-formulario .formulario .input-group input[type="password"].error{
+    border-bottom: var(--borde) solid var(--error);
+}
+
+.contenedor-formulario .formulario .input-group input[type="text"].error + label,
+.contenedor-formulario .formulario .input-group input[type="password"].error + label{
+    color: var(--error);
+}
+
+.contenedor-formulario .formulario .input-group label{
+    color: var(--colorBlack);
+    font-weight: bold;
+}
+.contenedor-formulario .formulario .input-group label.label{
+    position: absolute;
+    top: 13px;
+    left: 0;
+    font-size: 16px;
+    line-height: 16px;
+    margin-left: 16px;
+    transition: all .3s ease;
+}
+.contenedor-formulario .formulario .input-group label.label.active{
+    top: -12px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 12px;
+    color: var(--divider);
+}
+
+.contenedor-formulario .formulario .input-group.checkbox label{
+    display: inline-block;
+    cursor: pointer;
+    background: var(--colorBlack);
+    color: var(--colorYellowLog);
+    position: relative;
+    padding: 5px 15px 5px 51px;
+    font-size: 1em;
+    border-radius: 7px;
+    transition: all .3s ease;
+}
+
+.contenedor-formulario .formulario .input-group.checkbox label:hover{
+    background: var(--ligthBlack);
+    color: var(--white);
+}
+
+.contenedor-formulario .formulario .input-group.checkbox label::before{
+    content: "";
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    position: absolute;
+    left: 15px;
+    border-radius: 50%;
+    background: none;
+    border: var(--borde) solid var(--colorYellowLog);
+}
+
+.contenedor-formulario .formulario .input-group.checkbox.error label{
+    color: var(--error);
+}
+
+.contenedor-formulario .formulario .input-group.checkbox.error label:hover{
+    background: rgba(211, 47, 47, 0.700);
+}
+
+.contenedor-formulario .formulario .input-group.checkbox.error label::before{
+    border: var(--borde) solid var(--error);
+}
+
+.contenedor-formulario .formulario .input-group.checkbox input[type="checkbox"]{
+    display: none;
+}
+
+.contenedor-formulario .formulario .input-group.checkbox input[type="checkbox"]:checked + label::before{
+    display: none;
+}
+
+.contenedor-formulario .formulario .input-group.checkbox input[type="checkbox"]:checked + label{
+    padding: 5px 15px 5px 15px;
+    background: var(--colorYellowLog);
+    border-radius: 7px;
+    color: var(--colorBlack);
+}
+
+.contenedor-formulario .formulario .input-group.checkbox input[type="checkbox"] + label::before{
+    border-radius: 3px;
+    top: 4px;
+}
+
+.contenedor-formulario .formulario input[type="submit"]{
+    background: var(--colorBlack);
+    border-radius: 15px;
+    border: var(--borde) solid var(--white);
+    color: var(--colorYellowLog);
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px;
+    width: 100%;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    transition: all .3s ease;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.contenedor-formulario .formulario input[type="submit"]:hover{
+    font-weight: bold;
+    background: var(--light-primary);
+    color: var(--colorBlack);
+}
+
+.notify{
+    width: 5%;
+}
