@@ -1,22 +1,18 @@
 import  { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 
-export const User = sequelize.define("users", {
-    idUser: {
+export const Problem = sequelize.define( "Problem", {
+    idProb: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    rolUser: {
+    nameProb: {
         type: DataTypes.STRING,
         allowNull: true
     },
-    active: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-    }, 
-}, 
-{
-    timestamps: false
-}
-);
+    description: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    }
+});

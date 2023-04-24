@@ -1,6 +1,12 @@
 import express from "express";
+// import userRoutes from "../routes/user.routes.js";
 
 const app = express();
+
+//Middlewares
+app.use(express.json());
+
+// app.use(userRoutes);
 
 app.get("/", (req, res) => {
     res.send("Hello World");
