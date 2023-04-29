@@ -1,15 +1,27 @@
-import express from "express";
-// import userRoutes from "../routes/user.routes.js";
+// import express from "express";
+// import { create } from "express-handlebars";
+// // import userRoutes from "../routes/user.routes.js";
 
-const app = express();
+// const app = express();
 
-//Middlewares
-app.use(express.json());
-app.use(express.static("public"));
-// app.use(userRoutes);
+// const hbs = create({
+//     extname: ".hbs",
+// });
 
-app.get("/", (req, res) => {
-    res.send("Hello World");
-});
+// //Middlewares
 
-export default app;
+// //Configuracion del motor de plantillas
+// app.engine(".hbs", hbs.engine);
+// app.set("view engine", ".hbs");
+// app.set("views", "../views");
+
+// // app.use(userRoutes);
+
+// app.get("/", (req, res) => {
+//     res.render("home");
+// });
+
+// app.use(express.static("/public/templateEngine"));
+// app.use(express.json());
+
+// export default app;
