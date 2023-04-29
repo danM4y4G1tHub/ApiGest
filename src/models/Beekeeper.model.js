@@ -1,10 +1,18 @@
 import  { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { bcrypt } from "bcrypt";
-import { Problem } from "../models/Problem.js";
+import { Product } from "./Product.model.js";
+import { Problem } from "./Problem.model.js";
+
+import pkg from 'bcrypt';
+const { bcrypt } = pkg;
 
 export const Beekeeper = sequelize.define("Beekeeper", 
 {
+    idBK: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     user: {
         type: DataTypes.STRING,
         allowNull: true
@@ -40,5 +48,24 @@ export const Beekeeper = sequelize.define("Beekeeper",
 }
 );
 
-Beekeeper.hasMany(Problem);
-Problem.belongsTo(Beekeeper);
+Beekeeper.hasMany(Product, 
+{
+    foreignKey: "idBK",
+    sourceKey: "idBK"
+});
+
+Product.belongsTo(Beekeeper, 
+{
+    foreignKey: "idBK",
+    targetKey: "idBK"
+});
+
+Beekeeper.hasMany(Problem, {
+    foreignKey: "idBK",
+    sourceKey: "idBK"
+});
+
+Problem.belongsTo(Beekeeper, {
+    foreignKey: "idBK",
+    targetKey: "idBK"
+});

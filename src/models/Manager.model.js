@@ -1,9 +1,20 @@
-import  { DataTypes } from "sequelize";
+import  { DataTypes, INTEGER } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { bcrypt } from "bcrypt";
+
+import pkg from 'bcrypt';
+const { bcrypt } = pkg;
 
 export const Manager = sequelize.define("Manager", 
 {
+    idMgr: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    ciMgr: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
     user: {
         type: DataTypes.STRING,
         allowNull: true
@@ -36,5 +47,4 @@ export const Manager = sequelize.define("Manager",
             bcrypt.compareSync(password, this.password);
         }
     }
-}
-);
+});

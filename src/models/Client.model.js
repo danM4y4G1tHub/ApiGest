@@ -1,9 +1,17 @@
 import  { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { bcrypt } from "bcrypt";
+import { Order } from "./Order.model.js";
+
+import pkg from 'bcrypt';
+const { bcrypt } = pkg;
 
 export const Client = sequelize.define("Client", 
 {
+    idClient: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: true
@@ -12,6 +20,10 @@ export const Client = sequelize.define("Client",
         type: DataTypes.STRING,
         allowNull: true
     },
+    registred: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
+    }
 },
 {
     hooks: {
@@ -38,3 +50,15 @@ export const Client = sequelize.define("Client",
     }
 }
 );
+
+Client.hasMany(Order, 
+{
+    foreignKey: "idClient",
+    sourceKey: "idClient"
+});
+
+Order.belongsTo(Client,
+{
+    foreignKey: "idClient",
+    targetKey: "idClient"
+});

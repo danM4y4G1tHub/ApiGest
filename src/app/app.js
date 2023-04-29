@@ -5,7 +5,7 @@ const app = express();
 
 //Middlewares
 app.use(express.json());
-
+app.use(express.static("public"));
 // app.use(userRoutes);
 
 app.get("/", (req, res) => {

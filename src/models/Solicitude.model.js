@@ -5,42 +5,51 @@ export const Solicitude = sequelize.define("Solicitude",
 {
     idSol: {
         type: DataTypes.INTEGER,
+        primaryKey: true,
         autoIncrement: true,
     },
-    nameSolicit: {
+    nameApplic: {
         type: DataTypes.STRING,
         allowNull: true
     },
-    lastNameSolicit: {
+    lastNameApplic: {
         type: DataTypes.STRING,
         allowNull: true
     },
-    ciSolicit: {
+    ciApplic: {
         type: DataTypes.STRING,
         allowNull: true
     },
-    certificSolicit: {
+    certificApplic: {
         type: DataTypes.BOOLEAN,
         allowNull: true
     },
-    telefSolicit: {
+    telefApplic: {
         type: DataTypes.STRING,
         allowNull: true
     },
-    emailSolicit: {
+    emailApplic: {
      type: DataTypes.STRING,
      allowNull: true,
     },
-    provSolicit: {
+    provApplic: {
         type: DataTypes.STRING,
         allowNull: true
     },
-    munSolicit: {
+    munApplic: {
         type: DataTypes.STRING,
         allowNull: true
     },
-    dirSolicit: {
-        type: DataTypes.TEXT,
+    city: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    street: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    noStreet: {
+        type: DataTypes.STRING,
         allowNull: true
     },
     state: {
