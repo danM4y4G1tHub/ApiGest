@@ -22,3 +22,8 @@ import {
 } from "../services/Beekeeper.js";
 
 // export a method called registerUser() after to accept de solicitude of the applicant
+
+// validarDatosSolicitud, crearSolicitud, enviarCorreo, verificarConfirmacionCorreo
+// validarTokenSolicitante, mostarDatosSolicitud,
+// verificarEstadoSolicitud, notificarAceptacionSolicitud
+//llamar al controllador loggerUser

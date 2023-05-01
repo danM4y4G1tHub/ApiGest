@@ -1,0 +1,9 @@
+index.js 
+    --> app/app.js 
+        --> routes/<name>.routes.js                  \
+            --> middlewares/<name>.js                 | CONTROLLER
+            --> controllers/<name>.controller.js      |
+                --> services/<name>.service.js       /
+
+                    --> models/<name>.model.js       \ MODEL
+                        --> database/database.js     /

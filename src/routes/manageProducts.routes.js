@@ -9,10 +9,11 @@
 
 //  const router = Router();
 
-//  router.get("/User/:id", getUser);
-//  router.get("/User", getUsers);
-//  router.post("/User", createUser);
-//  router.delete("/User/:id", deleteUser);
-//  router.put("/User/:id", updateUser);
+//Use Case: Gestionar Productos
+// router.post("/aggregate");
+// router.post("/modify");
+// router.post("/delete");
+// router.post("/salemonth");
+// router.post("/saleannual");
 
 //  export default router;

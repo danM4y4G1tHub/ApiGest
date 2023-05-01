@@ -18,7 +18,8 @@ export const Solicitude = sequelize.define("Solicitude",
     },
     ciApplic: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true
     },
     certificApplic: {
         type: DataTypes.BOOLEAN,
@@ -31,6 +32,7 @@ export const Solicitude = sequelize.define("Solicitude",
     emailApplic: {
      type: DataTypes.STRING,
      allowNull: true,
+     unique: true 
     },
     provApplic: {
         type: DataTypes.STRING,
