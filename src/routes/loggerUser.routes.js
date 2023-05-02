@@ -17,11 +17,11 @@ const router = Router();
 //Use Case: Loggear Usuario
 router.post("/guest", guestUser);
 
-router.post("/register", registerValidator, validationResultExpress, registerUser);
+router.post("/register", registerValidator, validationResultExpress, registerUser); //funciona bien, recibe los campos y los valida
 
-router.post("/login", loginValidator, validationResultExpress, authUser);
+router.post("/login", loginValidator, validationResultExpress, authUser); //funciona bien, recibe los campos y los valida
 
-router.post("/profile", changePasswordUser);
+router.post("/profile", loginValidator, changePasswordUser); //funciona bien, recibe los campos y los valida
 
 //use Case: Solicitar Incorporacion
 // router.post("/apply");

@@ -26,23 +26,26 @@ import { createUser } from "../services/User.js";
 
 export const registerUser = (req, res) => {
     console.log(req.body);
-    res.json({ ok: "Registrar"});
+    // res.json({ ok: "Registrar"});
+    res.json(req.body);
 }
 
 // comprobarAccesoInvitado, crearUsuarioRolInvitado, cargarSessionInvitado
 export const guestUser = async (req, res) => {
-    const create = await createUser;
-    res.json(create);
+    return res.status(201).json(await createUser(req, res));
+    // console.log(res);
 }
 
 // validarDatosUsuario, confirmarUsuario, modificarUsuario
 export const changePasswordUser = (req, res) => {
     console.log(req.body);
-    res.json({ ok: "Cambiar Contraseña"});
+    // res.json({ ok: "Cambiar Contraseña"});
+    res.json(req.body);
 }
 
 // validarDatosUsuario, autenticarUsuario, cargarSessionUsuario
 export const authUser = (req, res) => {
     console.log(req.body);
-    res.json({ ok: "Login"});
+    // res.json({ ok: "Login"});
+    res.json(req.body);
 };

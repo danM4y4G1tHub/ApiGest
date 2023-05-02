@@ -1,12 +1,13 @@
+
 import { UserModel } from "../models/User.model.js";
 
 export const createUser = async (req, res) => {
   try {
-    const { rol, active } = req.body;
-
+    console.log(req.body);
+    const {rol, active} = req.body;
     const newUser = await UserModel.create({rol, active});
-    console.log(newUser);
-    res.json(newUser);
+    console.log(newUser.dataValues)
+    return newUser.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
