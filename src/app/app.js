@@ -1,27 +1,27 @@
-// import express from "express";
-// import { create } from "express-handlebars";
-// // import userRoutes from "../routes/user.routes.js";
+import express from "express";
+import { create } from "express-handlebars";
+// import userRoutes from "../routes/user.routes.js";
 
-// const app = express();
+const app = express();
 
-// const hbs = create({
-//     extname: ".hbs",
-// });
+const hbs = create({
+    extname: ".hbs",
+});
 
-// //Middlewares
+//Middlewares
 
-// //Configuracion del motor de plantillas
-// app.engine(".hbs", hbs.engine);
-// app.set("view engine", ".hbs");
-// app.set("views", "../views");
+//Configuracion del motor de plantillas
+app.engine(".hbs", hbs.engine);
+app.set("view engine", ".hbs");
+app.set("views", "../views");
 
-// // app.use(userRoutes);
+// app.use(userRoutes);
 
-// app.get("/", (req, res) => {
-//     res.render("home");
-// });
+app.get("/", (req, res) => {
+    res.render("home");
+});
 
-// app.use(express.static("/public/templateEngine"));
-// app.use(express.json());
+app.use(express.json());
+app.use(express.static("/public/templateEngine"));
 
-// export default app;
+export default app;
