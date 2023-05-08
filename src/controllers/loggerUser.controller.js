@@ -32,7 +32,12 @@ export const registerUser = (req, res) => {
 
 // comprobarAccesoInvitado, crearUsuarioRolInvitado, cargarSessionInvitado
 export const guestUser = async (req, res) => {
-    return res.status(201).json(await createUser(req, res));
+    try {
+        const { rol, active } = req.body;
+        res.status(201).json(await createUser(rol, active));
+    } catch (error) {
+        res.status(400).json({error: message});
+    }
     // console.log(res);
 }
 

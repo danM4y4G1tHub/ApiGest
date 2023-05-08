@@ -23,7 +23,7 @@ export const registerValidator = [
     .normalizeEmail(),
   body("password", "La contraseña debe tener como mínimo 7 caracteres")
     .trim()
-    .isLength({ min: 1 })
+    .isLength({ min: 7 })
 ];
 
 export const loginValidator = [
