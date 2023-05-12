@@ -20,6 +20,14 @@ export const UserModel = sequelize.define("User", {
     type: DataTypes.BOOLEAN,
     allowNull: true,
   },
+  tokenConfirm: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: true,
+  },
+  accountConfirm: {
+    type: DataTypes.BOOLEAN,
+  },
 });
 
 Applicant.belongsTo(UserModel, {
