@@ -42,10 +42,6 @@ export const Solicitude = sequelize.define("Solicitude",
         type: DataTypes.STRING,
         allowNull: true
     },
-    city: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
     street: {
         type: DataTypes.STRING,
         allowNull: true

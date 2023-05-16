@@ -9,3 +9,4 @@ export const createApplicant = (req, res) => {
 };
 const deleteApplicant = (req, res) => {};
 const updateApplicant = (req, res) => {};
+

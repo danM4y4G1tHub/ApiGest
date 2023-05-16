@@ -5,7 +5,6 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 
 const app = express();
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // -----view engine----
 app.engine(".hbs", engine({
@@ -20,7 +19,6 @@ app.get("/", (req, res) => {
 // -----/view engine----
 
 app.use(express.json());
-app.use(express.static(__dirname + "/public/templateEngine"));
 
 async function main(){
     try {
