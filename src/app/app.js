@@ -1,27 +1,25 @@
 import express from "express";
-import { create } from "express-handlebars";
-// import userRoutes from "../routes/user.routes.js";
+import { engine } from "express-handlebars";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+import applyRouter from "../routes/applyIncorporation.routes.js";
 
 const app = express();
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const hbs = create({
+// -----view engine----
+app.engine(
+  ".hbs",
+  engine({
     extname: ".hbs",
-});
-
-//Middlewares
-
-//Configuracion del motor de plantillas
-app.engine(".hbs", hbs.engine);
-app.set("view engine", ".hbs");
-app.set("views", "../views");
-
-// app.use(userRoutes);
-
-app.get("/", (req, res) => {
-    res.render("home");
-});
+  })
+);
+app.set("view engine", "hbs");
+app.set("views", __dirname + "/../views");
+// -----/view engine----
 
 app.use(express.json());
-app.use(express.static("/public/templateEngine"));
+app.use("/solicitude", applyRouter);
 
 export default app;
