@@ -1,22 +1,7 @@
 import express from "express";
-import { engine } from "express-handlebars";
 import { sequelize } from "./database/database.js";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 
 const app = express();
-
-// -----view engine----
-app.engine(".hbs", engine({
-    extname: ".hbs"
-}));
-app.set("view engine", "hbs");
-app.set("views", __dirname + "/views");
- 
-app.get("/", (req, res) => {
-    res.render("home", {titulo: "Pagina de inicio"});
-});
-// -----/view engine----
 
 app.use(express.json());
 
