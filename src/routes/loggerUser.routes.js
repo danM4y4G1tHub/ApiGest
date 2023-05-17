@@ -3,7 +3,7 @@ import {
   registerUser,
   guestUser,
   changePasswordUser,
-  authUser,
+  authUser
 } from "../controllers/loggerUser.controller.js";
 
 import {
@@ -16,7 +16,6 @@ const router = Router();
 
 //Use Case: Loggear Usuario
 router.post("/guest", guestUser);
-
 router.post(
   "/register",
   registerValidator,

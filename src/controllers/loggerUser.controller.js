@@ -30,6 +30,10 @@ export const registerUser = (req, res) => {
     res.json(req.body);
 }
 
+export const hello = async (req, res) => {
+    red.send("Entro");
+}
+
 // comprobarAccesoInvitado, crearUsuarioRolInvitado, cargarSessionInvitado
 export const guestUser = async (req, res) => {
     try {

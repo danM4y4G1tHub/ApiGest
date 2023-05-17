@@ -7,7 +7,7 @@ app.use(express.json());
 
 async function main(){
     try {
-        await sequelize.sync();
+        await sequelize.sync({force: true});
         console.log("Conexión establecida con éxito 🦅");
         app.listen(3000, () => console.log("Servidor ejecutado con exito 🦉"));
     } catch (error) {
