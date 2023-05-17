@@ -1,4 +1,4 @@
-import { Product } from "../models/Product.model.js";
+import { ProductModel } from "../models/Product.model.js";
 
 export const createProduct = (req, res) => {};
 export const getProduct = (req, res) => {};

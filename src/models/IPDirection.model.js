@@ -1,21 +1,17 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 
-export const ProblemModel = sequelize.define(
-  "Problem",
+export const IPDirectionModel = sequelize.define(
+  "IPDirection",
   {
-    idProb: {
+    idIPD: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    nameProb: {
+    ipDir: {
       type: DataTypes.STRING,
-      allowNull: true,
-    },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },
   },
   {

@@ -1,28 +1,31 @@
-import  { DataTypes } from "sequelize";
+import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { Solicitude } from "./Solicitude.model.js";
+import { SolicitudeModel } from "./Solicitude.model.js";
 
-export const Applicant = sequelize.define("Applicant", 
-{   
+export const ApplicantModel = sequelize.define(
+  "Applicant",
+  {
     idApplic: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     token: {
-        type: DataTypes.STRING,
-        allowNull: true
-    }
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
+
+ApplicantModel.hasOne(SolicitudeModel, {
+  foreignKey: "idApplic",
+  sourceKey: "idApplic",
 });
 
-Applicant.hasOne(Solicitude, 
-{
-    foreignKey: "idApplic",
-    sourceKey: "idApplic"
-});
-
-Solicitude.belongsTo(Applicant, 
-{
-    foreignKey: "idApplic",
-    targetKey: "idApplic"
+SolicitudeModel.belongsTo(ApplicantModel, {
+  foreignKey: "idApplic",
+  targetKey: "idApplic",
 });

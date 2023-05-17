@@ -3,7 +3,7 @@ import { UserModel } from "../models/User.model.js";
 export const createUser = async (rol, active) => {
   try {
     const newUser = await UserModel.create({rol, active});
-    return newUser;
+    return newUser.idUser;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

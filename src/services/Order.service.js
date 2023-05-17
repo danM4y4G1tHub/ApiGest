@@ -1,4 +1,4 @@
-import { Order } from "../models/Order.model.js";
+import { OrderModel } from "../models/Order.model.js";
 
 export const createOrder = (req, res) => {};
 export const getOrder = (req, res) => {};

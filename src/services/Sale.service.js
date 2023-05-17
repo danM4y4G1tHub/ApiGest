@@ -1,4 +1,4 @@
-import { Sale } from "../models/Sale.model.js";
+import { SaleModel } from "../models/Sale.model.js";
 
 export const createSale = (req, res) => {};
 export const getSale = (req, res) => {};

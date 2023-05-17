@@ -1,4 +1,4 @@
-import { Beekeeper } from "../models/Beekeeper.model.js";
+import { BeekeeperModel } from "../models/Beekeeper.model.js";
 
 export const createBeekeeper = (req, res) => {};
 export const getBeekeeper = (req, res) => {};

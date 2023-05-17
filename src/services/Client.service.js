@@ -1,4 +1,4 @@
-import { Client } from "../models/Client.model.js";
+import { ClientModel } from "../models/Client.model.js";
 
 export const createClient = (req, res) => {};
 export const getClient = (req, res) => {};

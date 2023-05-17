@@ -4,7 +4,7 @@ import { sequelize } from "../database/database.js";
 import pkg, { hash } from "bcrypt";
 const { bcrypt } = pkg;
 
-export const Manager = sequelize.define(
+export const ManagerModel = sequelize.define(
   "Manager",
   {
     idMgr: {
@@ -27,6 +27,9 @@ export const Manager = sequelize.define(
     },
   },
   {
+    timestamps: false,
+  },
+  {
     hooks: {
       beforeCreate: async (user) => {
         if (user.password) {
@@ -43,13 +46,12 @@ export const Manager = sequelize.define(
     },
     instanceMethods: {
       validPassword: (password) => {
-        return;
-        bcrypt.compareSync(password, this.password);
+        return bcrypt.compareSync(password, this.password);
       },
     },
   }
 );
 
-Manager.prototype.validPassword = async (password, hash) => {
-    return await bcrypt.compareSync(password, hash);
+ManagerModel.prototype.validPassword = async (password, hash) => {
+  return await bcrypt.compareSync(password, hash);
 };

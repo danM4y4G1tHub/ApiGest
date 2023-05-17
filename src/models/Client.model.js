@@ -1,11 +1,11 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { Order } from "./Order.model.js";
+import { OrderModel } from "./Order.model.js";
 
 import pkg, { hash } from "bcrypt";
 const { bcrypt } = pkg;
 
-export const Client = sequelize.define(
+export const ClientModel = sequelize.define(
   "Client",
   {
     idClient: {
@@ -28,6 +28,9 @@ export const Client = sequelize.define(
     },
   },
   {
+    timestamps: false,
+  },
+  {
     hooks: {
       beforeCreate: async (user) => {
         if (user.password) {
@@ -44,23 +47,22 @@ export const Client = sequelize.define(
     },
     instanceMethods: {
       validPassword: (password) => {
-        return;
-        bcrypt.compareSync(password, this.password);
+        return bcrypt.compareSync(password, this.password);
       },
     },
   }
 );
 
-Client.hasMany(Order, {
+ClientModel.hasMany(OrderModel, {
   foreignKey: "idClient",
   sourceKey: "idClient",
 });
 
-Order.belongsTo(Client, {
+OrderModel.belongsTo(ClientModel, {
   foreignKey: "idClient",
   targetKey: "idClient",
 });
 
-Client.prototype.validPassword = async (password, hash) => {
+ClientModel.prototype.validPassword = async (password, hash) => {
   return await bcrypt.compareSync(password, hash);
 };

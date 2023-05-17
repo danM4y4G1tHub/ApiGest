@@ -1,4 +1,4 @@
-import { Session } from "../models/Session.model.js";
+import { SessionModel } from "../models/Session.model.js";
 
 export const createSession = (req, res) => {};
 export const getSession = (req, res) => {};

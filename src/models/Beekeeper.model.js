@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { Product } from "./Product.model.js";
-import { Problem } from "./Problem.model.js";
+import { ProductModel } from "./Product.model.js";
+import { ProblemModel } from "./Problem.model.js";
 
 import pkg, { hash } from "bcrypt";
 const { bcrypt } = pkg;
@@ -22,6 +22,9 @@ export const BeekeeperModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+  },
+  {
+    timestamps: false,
   },
   {
     hooks: {
@@ -46,22 +49,22 @@ export const BeekeeperModel = sequelize.define(
   }
 );
 
-BeekeeperModel.hasMany(Product, {
+BeekeeperModel.hasMany(ProductModel, {
   foreignKey: "idBK",
   sourceKey: "idBK",
 });
 
-Product.belongsTo(BeekeeperModel, {
+ProductModel.belongsTo(BeekeeperModel, {
   foreignKey: "idBK",
   targetKey: "idBK",
 });
 
-BeekeeperModel.hasMany(Problem, {
+BeekeeperModel.hasMany(ProblemModel, {
   foreignKey: "idBK",
   sourceKey: "idBK",
 });
 
-Problem.belongsTo(BeekeeperModel, {
+ProblemModel.belongsTo(BeekeeperModel, {
   foreignKey: "idBK",
   targetKey: "idBK",
 });

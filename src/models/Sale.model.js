@@ -1,19 +1,24 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 
-export const Sale = sequelize.define("Sale",
-{
+export const SaleModel = sequelize.define(
+  "Sale",
+  {
     idSale: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     lotProd: {
-        type: DataTypes.INTEGER,
-        allowNull: true
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
     dataSale: {
-        type: DataTypes.DATE,
-        allowNull: true
-    }
-});
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+  },
+  {
+    timestamps: false,
+  }
+);

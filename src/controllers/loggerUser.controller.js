@@ -1,4 +1,4 @@
-import { createUser } from "../services/User.js";
+import { createUser } from "../services/User.service.js";
 
 // import {
 //     createBeekeeper,
