@@ -1,7 +1,7 @@
 import  { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 
-export const Session = sequelize.define("Session",
+export const SessionModel = sequelize.define("Session",
 {
     idSess: {
         type: DataTypes.INTEGER,
@@ -14,14 +14,6 @@ export const Session = sequelize.define("Session",
     },
     timesConnected: {
         type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    IPDirection: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    device: {
-        type: DataTypes.STRING,
         allowNull: false
     }
 });

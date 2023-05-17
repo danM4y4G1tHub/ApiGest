@@ -1,13 +1,15 @@
-import { User } from "../model/User.model.js";
+// import { UserModel } from "../model/User.model.js";
 
-export const createUser = async (req, res) => {
+export const createUser = async (rol, active, accountConfimr, tokenConfirm) => {
     try {
-        const {rolUser, active} = req.body;
-        
         const newUser = await User.create({
-            rolUser,
-            active
+            rol,
+            active,
+            accountConfimr,
+            tokenConfirm
         });
+
+        return newUser.idUser;
     } catch (error) {
         return res.status(500).json({message: error.message});
     }

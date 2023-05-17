@@ -20,6 +20,8 @@ app.set("views", __dirname + "/../views");
 // -----/view engine----
 
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 app.use("/solicitude", applyRouter);
+// app.use(applyRouter);
 
 export default app;

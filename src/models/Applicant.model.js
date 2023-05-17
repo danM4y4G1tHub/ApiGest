@@ -1,8 +1,8 @@
 import  { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { Solicitude } from "./Solicitude.model.js";
+import { SolicitudeModel } from "./Solicitude.model.js";
 
-export const Applicant = sequelize.define("Applicant", 
+export const ApplicantModel = sequelize.define("Applicant", 
 {   
     idApplic: {
         type: DataTypes.INTEGER,
@@ -15,13 +15,13 @@ export const Applicant = sequelize.define("Applicant",
     }
 });
 
-Applicant.hasOne(Solicitude, 
+ApplicantModel.hasOne(SolicitudeModel, 
 {
     foreignKey: "idApplic",
     sourceKey: "idApplic"
 });
 
-Solicitude.belongsTo(Applicant, 
+SolicitudeModel.belongsTo(ApplicantModel, 
 {
     foreignKey: "idApplic",
     targetKey: "idApplic"

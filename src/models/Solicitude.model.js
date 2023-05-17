@@ -1,7 +1,7 @@
 import  { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 
-export const Solicitude = sequelize.define("Solicitude",
+export const SolicitudeModel = sequelize.define("Solicitude",
 {
     idSol: {
         type: DataTypes.INTEGER,
@@ -37,10 +37,6 @@ export const Solicitude = sequelize.define("Solicitude",
         allowNull: true
     },
     munApplic: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    city: {
         type: DataTypes.STRING,
         allowNull: true
     },

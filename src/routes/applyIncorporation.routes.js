@@ -5,6 +5,8 @@ import { registerSolicitude } from "../controllers/applyIncorporation.controller
 
 const router = Router();
 
+router.get("/", (req, res) => { return res.render("s") });
+router.post("/", (req, res) => { res.json(req.body) });
 router.post("/apply", solicitudeValidator, validationResultExpress, registerSolicitude);
 
 export default router;
