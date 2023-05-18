@@ -49,15 +49,8 @@ export const BeekeeperModel = sequelize.define(
   }
 );
 
-BeekeeperModel.hasMany(ProductModel, {
-  foreignKey: "idBK",
-  sourceKey: "idBK",
-});
-
-ProductModel.belongsTo(BeekeeperModel, {
-  foreignKey: "idBK",
-  targetKey: "idBK",
-});
+BeekeeperModel.belongsToMany(ProductModel, {through: "BeekeeperProduct", timestamps: false});
+ProductModel.belongsTo(BeekeeperModel, {through: "BeekeeperProduct"});
 
 BeekeeperModel.hasMany(ProblemModel, {
   foreignKey: "idBK",

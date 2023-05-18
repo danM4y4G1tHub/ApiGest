@@ -1,16 +1,46 @@
-import { ApplicantModel } from "../models/Applicant.model.js"
+import { ApplicantModel } from "../models/Applicant.model.js";
+import { nanoid } from "nanoid";
 
-export const getApplicant = (req, res) => {
-    res.send("Getting applicants");
+export const createApplicant = async (idU) => {
+  try {
+    const newApply = await ApplicantModel.create({
+      token: nanoid(8),
+      idUser: idU,
+    });
+    return newApply.dataValues;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };
 
-export const createApplicant = async (idUser) => {
-    try {
-        const newApply = await ApplicantModel.create();
-    } catch (error) {
-        
-    };
-};
-const deleteApplicant = (req, res) => {};
-const updateApplicant = (req, res) => {};
+export const getApplicant = async (idApplic) => {
+  try {
+    const newApply = await ApplicantModel.findByPk(idApplic);
+    return newApply;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
 
+export const getApplicantToken = async (token) => {
+  try {
+    const newApply = await ApplicantModel.findOne({
+      where: {
+        token,
+      },
+    });
+    return newApply;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteApplicant = async (idApply) => {
+  try {
+    await ApplicantModel.destroy({
+      where: {
+        idApply,
+      },
+    });
+  } catch (error) {}
+};

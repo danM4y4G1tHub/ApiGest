@@ -25,7 +25,7 @@ router.post(
 
 router.post("/login", loginValidator, validationResultExpress, authUser); //funciona bien, recibe los campos y los valida
 
-router.post("/profile", loginValidator, changePasswordUser); //funciona bien, recibe los campos y los valida
+router.post("/profile", loginValidator, validationResultExpress, changePasswordUser); //funciona bien, recibe los campos y los valida
 
 //Use Case: Solicitar Pedidos
 // router.post("/");

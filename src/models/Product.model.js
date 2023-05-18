@@ -36,12 +36,5 @@ export const ProductModel = sequelize.define(
   }
 );
 
-ProductModel.hasMany(SaleModel, {
-  foreignKey: "idProd",
-  sourceKey: "idProd",
-});
-
-SaleModel.belongsTo(ProductModel, {
-  foreignKey: "idProd",
-  targetKey: "idProd",
-});
+ProductModel.belongsToMany(SaleModel, {through: "PorductOrder", timestamps: false});
+SaleModel.belongsToMany(ProductModel, {through: "PorductOrder"});

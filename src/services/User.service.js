@@ -1,15 +1,34 @@
 import { UserModel } from "../models/User.model.js";
+import { nanoid } from "nanoid";
 
-export const createUser = async (rol, active) => {
+export const createUser = async (rol, active, accountConfirm) => {
   try {
-    const newUser = await UserModel.create({rol, active});
-    return newUser.idUser;
+    const newUser = await UserModel.create({
+      rol,
+      active,
+      tokenConfirm: nanoid(8),
+      accountConfirm,
+    });
+    return newUser.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
 
-// export const getUser = async (req, res) => {
+export const getAllUsers = async () => {
+  try {
+    const allUsers = await UserModel.findAll({
+      where: {
+        rol: "Solicitante"
+      }
+    });
+    return allUsers;
+  } catch (error) {
+    
+  }
+}
+
+// export const getUser = async (token) => {
 //   try {
 //     const { user } = req.params;
 //     const useR = await User.findOne({
@@ -23,15 +42,6 @@ export const createUser = async (rol, active) => {
 //     res.json(useR);
 //   } catch (error) {
 //     return res.status().json({ message: error.message });
-//   }
-// };
-
-// export const getUsers = async (req, res) => {
-//   try {
-//     const users = await User.findAll();
-//     res.json(users);
-//   } catch (error) {
-//     return res.status(500).json({ message: error.message });
 //   }
 // };
 

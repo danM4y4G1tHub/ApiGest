@@ -52,7 +52,7 @@ export const SolicitudeModel = sequelize.define(
       allowNull: true,
     },
     state: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.STRING,
       allowNull: true,
     },
   },
