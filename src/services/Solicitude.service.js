@@ -38,13 +38,12 @@ export const getDataSolicitude = async (idApplic) => {
 
     return newSol.dataValues;
   } catch (error) {
-    
+    return res.status(500).json({ message: error.message });
   }
 };
 
 export const getCIApplicant = async (ciApplic) => {
   try {
-    console.log(ciApplic);
     const newSol = await SolicitudeModel.findOne({
       where: {
         ciApplic
@@ -53,13 +52,11 @@ export const getCIApplicant = async (ciApplic) => {
 
     return newSol;
   } catch (error) {
-    
+    return res.status(500).json({ message: error.message });
   }
 }
 export const updateSolicitude = async (idApplic, state) => {
   try {
-    console.log(idApplic);
-    console.log(state);
     SolicitudeModel.update({state}, {where: {
       idApplic
     }}).then(result => {

@@ -20,7 +20,7 @@ export const getApplicant = async (idApplic) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const getApplicantToken = async (token) => {
   try {
@@ -42,5 +42,7 @@ export const deleteApplicant = async (idApply) => {
         idApply,
       },
     });
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };

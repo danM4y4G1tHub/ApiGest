@@ -15,72 +15,92 @@ export const createUser = async (rol, active, accountConfirm) => {
   }
 };
 
+export const getUser = async (idUser) => {
+  try {
+    const user = await UserModel.findByPk(idUser);
+    return user.dataValues;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export const getAllUsers = async () => {
   try {
-    const allUsers = await UserModel.findAll({
-      where: {
-        rol: "Solicitante"
-      }
-    });
+    const allUsers = await UserModel.findAll();
     return allUsers;
   } catch (error) {
-    
+    return res.status(500).json({ message: error.message });
   }
-}
+};
 
-// export const getUser = async (token) => {
-//   try {
-//     const { user } = req.params;
-//     const useR = await User.findOne({
-//       where: {
-//         user,
-//       },
-//     });
+export const deleteUser = async (idUser) => {
+  try {
+    await UserModel.destroy({
+      where: {
+        idUser,
+      },
+    });
+    res.status(204);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-//     if (!useR) return res.status(404).json({ message: "El usuario no existe" });
+export const getRol = async (idUser) => {
+  try {
+    const rol = await UserModel.findByPk(idUser);
+    return rol;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-//     res.json(useR);
-//   } catch (error) {
-//     return res.status().json({ message: error.message });
-//   }
-// };
+export const setRol = async (idUser, rol) => {
+  try {
+    await UserModel.update(
+      { rol },
+      {
+        where: {
+          idUser,
+        },
+      }
+    );
+    res.status(200).json({ msg: "Rol actualizado" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-// export const updateUser = async (req, res) => {
-//   try {
-//     const { idUser } = req.params;
-//     const { rolUser, active } = req.body;
+export const isActive = async (idUser) => {
+  try {
+    const active = await UserModel.findByPk(idUser);
+    return active;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-//     const user = await User.findByPK(idUser);
-//     user.rolUser = rolUser;
-//     user.active = active;
-//     await user.save();
-//   } catch (error) {
-//     return res.status(500).json({ message: error.message });
-//   }
-// };
+export const setActive = async (idUser, active) => {
+  try {
+    await UserModel.update(
+      { active },
+      {
+        where: {
+          idUser,
+        },
+      }
+    );
+    res.status(200).json({ msg: "Active actualizado" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-// export const deleteUser = async (req, res) => {
-//   try {
-//     const { idUser } = req.params;
-//     await User.destroy({
-//       where: {
-//         idUser,
-//       },
-//     });
-//     res.sendStatus(204);
-//   } catch (error) {
-//     return res.status(500).json({ message: error.message });
-//   }
-// };
-
-// export const existUser = async (req, res) => {
-//   try {
-//     const exist = getUser;
-
-//     if (exist) {
-//       return true;
-//     }
-
-//     return false;
-//   } catch (error) {}
-// };
+export const getAccountConfirm = async (idUser) => {
+  try {
+    const confirmed = await UserModel.findByPk(idUser);
+    return confirmed;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

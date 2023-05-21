@@ -25,33 +25,24 @@ export const ManagerModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    lastChange: {
+      type: DataTypes.DATE,
+      allowNull: false
+    }
   },
   {
     timestamps: false,
   },
-  {
-    hooks: {
-      beforeCreate: async (user) => {
-        if (user.password) {
-          const salt = await bcrypt.genSaltSync(10, "a");
-          user.password = bcrypt.hashSync(user.password, salt);
-        }
-      },
-      beforeUpdate: async (user) => {
-        if (user.password) {
-          const salt = await bcrypt.genSaltSync(10, "a");
-          user.password = bcrypt.hashSync(user.password, salt);
-        }
-      },
-    },
-    instanceMethods: {
-      validPassword: (password) => {
-        return bcrypt.compareSync(password, this.password);
-      },
-    },
-  }
 );
 
-ManagerModel.prototype.validPassword = async (password, hash) => {
-  return await bcrypt.compareSync(password, hash);
-};
+ManagerModel.beforeCreate( async (mgr) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(mgr.password, saltRounds);
+  mgr.password = hashedPassword;
+});
+
+ManagerModel.beforeUpdate( async (mgr) => {
+  if(mgr.changed('password')){
+    mgr.password = bcrypt.hashSync(mgr.password, 10);
+  }
+});

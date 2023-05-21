@@ -5,8 +5,8 @@ import solicitudeApply from "../routes/applyIncorporation.routes.js";
 const app = express();
 
 //Middlewares
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use("/api/v1/auth", loggerUser)
 app.use("/api/v1/auth", loggerUser);
 app.use("/api/v1/solicitude", solicitudeApply);
 // app.use(express.static("public"));

@@ -22,6 +22,10 @@ export const ClientModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    lastChange: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
     registred: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
@@ -29,29 +33,20 @@ export const ClientModel = sequelize.define(
   },
   {
     timestamps: false,
-  },
-  {
-    hooks: {
-      beforeCreate: async (user) => {
-        if (user.password) {
-          const salt = await bcrypt.genSaltSync(10, "a");
-          user.password = bcrypt.hashSync(user.password, salt);
-        }
-      },
-      beforeUpdate: async (user) => {
-        if (user.password) {
-          const salt = await bcrypt.genSaltSync(10, "a");
-          user.password = bcrypt.hashSync(user.password, salt);
-        }
-      },
-    },
-    instanceMethods: {
-      validPassword: (password) => {
-        return bcrypt.compareSync(password, this.password);
-      },
-    },
   }
 );
+
+ClientModel.beforeCreate(async (client) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(bee.password, saltRounds);
+  client.password = hashedPassword;
+});
+
+ClientModel.beforeUpdate(async (client) => {
+  if (client.changed("password")) {
+    client.password = bcrypt.hashSync(client.password, 10);
+  }
+});
 
 ClientModel.hasMany(OrderModel, {
   foreignKey: "idClient",

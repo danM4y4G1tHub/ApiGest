@@ -1,9 +1,11 @@
 import { Router } from "express";
 import {
-  registerUser,
   guestUser,
   changePasswordUser,
-  authUser
+  authUser,
+  giveUsers,
+  registerClient,
+  registerBeeKeeper,
 } from "../controllers/loggerUser.controller.js";
 
 import {
@@ -15,17 +17,18 @@ import { validationResultExpress } from "../middlewares/validationResultsExpress
 const router = Router();
 
 //Use Case: Loggear Usuario
-router.post("/guest", guestUser);
-router.post(
-  "/register",
-  registerValidator,
-  validationResultExpress,
-  registerUser
-); //funciona bien, recibe los campos y los valida
-
-router.post("/login", loginValidator, validationResultExpress, authUser); //funciona bien, recibe los campos y los valida
-
-router.post("/profile", loginValidator, validationResultExpress, changePasswordUser); //funciona bien, recibe los campos y los valida
+router
+  .post("/guest", guestUser)
+  .post("/register/beekeeper", registerValidator, validationResultExpress, registerBeeKeeper)
+  .post("/register/client", registerValidator, validationResultExpress, registerClient)
+  .post("/login", loginValidator, validationResultExpress, authUser)
+  .post(
+    "/profile",
+    loginValidator,
+    validationResultExpress,
+    changePasswordUser
+  )
+  .get("/users", giveUsers);
 
 //Use Case: Solicitar Pedidos
 // router.post("/");
@@ -44,7 +47,5 @@ router.post("/profile", loginValidator, validationResultExpress, changePasswordU
 // router.post("/");
 // router.post("/");
 // router.post("/");
-
-
 
 export default router;

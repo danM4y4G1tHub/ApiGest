@@ -6,7 +6,7 @@ import {
   checkToken,
   giveApplicants,
   registerSolicitude,
-  changeState
+  changeState,
 } from "../controllers/applyIncorporation.controller.js";
 
 const router = Router();
@@ -21,6 +21,6 @@ router
   .get("/requesters", giveApplicants)
   .get("/state/token/:token", checkToken)
   .get("/state/cell/:ciApplic", checkCI)
-  .patch("/state/change/:idApplic/:state", changeState)
+  .patch("/state/change/:idApplic/:state", changeState);
 
 export default router;

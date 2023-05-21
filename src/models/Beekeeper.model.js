@@ -1,10 +1,9 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 import { sequelize } from "../database/database.js";
 import { ProductModel } from "./Product.model.js";
 import { ProblemModel } from "./Problem.model.js";
 
-import pkg, { hash } from "bcrypt";
-const { bcrypt } = pkg;
+import bcrypt from "bcrypt";
 
 export const BeekeeperModel = sequelize.define(
   "Beekeeper",
@@ -22,35 +21,37 @@ export const BeekeeperModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    lastChange: {
+      type: DataTypes.DATE,
+      allowNull: false
+    }
   },
   {
     timestamps: false,
-  },
-  {
-    hooks: {
-      beforeCreate: async (user) => {
-        if (user.password) {
-          const salt = await bcrypt.genSaltSync(10, "a");
-          user.password = bcrypt.hashSync(user.password, salt);
-        }
-      },
-      beforeUpdate: async (user) => {
-        if (user.password) {
-          const salt = await bcrypt.genSaltSync(10, "a");
-          user.password = bcrypt.hashSync(user.password, salt);
-        }
-      },
-    },
-    instanceMethods: {
-      validPassword: (password) => {
-        return bcrypt.compareSync(password, this.password);
-      },
-    },
   }
 );
 
-BeekeeperModel.belongsToMany(ProductModel, {through: "BeekeeperProduct", timestamps: false});
-ProductModel.belongsTo(BeekeeperModel, {through: "BeekeeperProduct"});
+BeekeeperModel.beforeCreate(async (bee) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(bee.password, saltRounds);
+  bee.password = hashedPassword;
+});
+
+BeekeeperModel.beforeUpdate(async (bee) => {
+  if (bee.changed("password")) {
+    bee.password = bcrypt.hashSync(bee.password, 10);
+  }
+});
+
+BeekeeperModel.belongsToMany(ProductModel, {
+  through: "BeekeeperProduct",
+  foreignKey: "idBK",
+  timestamps: false,
+});
+ProductModel.belongsToMany(BeekeeperModel, {
+  through: "BeekeeperProduct",
+  foreignKey: "idProd",
+});
 
 BeekeeperModel.hasMany(ProblemModel, {
   foreignKey: "idBK",
@@ -61,7 +62,3 @@ ProblemModel.belongsTo(BeekeeperModel, {
   foreignKey: "idBK",
   targetKey: "idBK",
 });
-
-BeekeeperModel.prototype.validPassword = async (password, hash) => {
-  return await bcrypt.compareSync(password, hash);
-};

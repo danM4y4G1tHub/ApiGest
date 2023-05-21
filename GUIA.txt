@@ -7,3 +7,36 @@ index.js
 
                     --> models/<name>.model.js       \ MODEL
                         --> database/database.js     /
+
+
+------------------------------------// RUTAS \\----------------------------------
+--> Solicitar incorporacion:
+localhost:3000/api/v1/solicitude/apply //mediante el verbo 'post' lleva a la ruta del formulario de solicitud.
+
+--> Consultar el estado de la solicitud:
+localhost:3000/api/v1/solicitude/state/token/:token //mediante el verbo 'get' y pasando como parametro el "token",
+                                                      se da acceso al solicitante a ver el estado de su solicitud.
+localhost:3000/api/v1/solicitude/state/cell/:ciApplic //mediante el verbo 'get' y pasando como parametro el "ci",
+                                                        el solicitante puede recibir su token nuevamente.
+
+--> Cambiar el estado de las solicitudes:
+localhost:3000/api/v1/solicitude/state/change/:idApplic/:state //mediante el verbo 'patch' ruta que solo puede usar 
+                                                                 el administrador del sitio para (aceptar/denegar) 
+                                                                 las solicitudes una vez las ha evaluado.
+
+Autenticacion
+--> Registrarse:
+localhost:3000/api/v1/auth/guest //mediante el verbo 'post' se registra por default a los usuarios que acceden al 
+                                   sitio como invitados.
+localhost:3000/api/v1/auth/register/beekeeper //mediante el verbo 'post' se envian los datos del Apicultor que se
+                                                registrará en el sito.
+localhost:3000/api/v1/auth/register/client    //mediante el verbo 'post' se envian los datos del Cliente que se
+                                                registrará en el sito.
+
+--> Login
+localhost:3000/api/v1/auth/login //mediante el verbo 'post' se envian los datos de usuario para acceder a la sección
+                                   de usuario en dependencia de su rol.
+
+Cambiar contraseña
+localhost:3000/api/v1/auth/profile //mediante del verbo 'post' se envian los datos de los usuarios que cambian
+                                     su contraseña 

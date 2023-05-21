@@ -17,14 +17,6 @@ export const SessionModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    IPDirection: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    device: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
   },
   {
     timestamps: false,
