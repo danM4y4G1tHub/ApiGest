@@ -1,5 +1,6 @@
-import { Sequelize } from "sequelize";
 import { BeekeeperModel } from "../models/Beekeeper.model.js";
+import bcrypt from "bcrypt";
+
 export const createBeekeeper = async (user, password, idApplic) => {
   try {
     const newBK = await BeekeeperModel.create({
@@ -14,19 +15,10 @@ export const createBeekeeper = async (user, password, idApplic) => {
   }
 };
 
-export const getUserBeekeeper = (user) => {
+export const getUserBeekeeper = async (idBK) => {
   try {
-    const user = BeekeeperModel.findOne({
-      where: {
-        user,
-      },
-    });
-
-    if(user){
-      return user;
-    } else{
-
-    }
+    const BK = await BeekeeperModel.findByPk(idBK);
+    return BK.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -40,22 +32,18 @@ export const existUser = async (user) => {
         attributes: ["user"],
       }
     );
-    if (exist) {
-      return true;
-    }
+    if (exist) return true;
     return false;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
 
-export const getPasswordBeekeeper = async (idBk, password) => {
+export const getPasswordBeekeeper = async (idBK, password) => {
   try {
-    const pass = BeekeeperModel.findByPk(idBk, { attributes: ["password"] });
-    const match = await bcrypt.compare(password, pass);
-    if (match) {
-      return true;
-    }
+    const pass = await BeekeeperModel.findByPk(idBK);
+    const match = await bcrypt.compare(password, pass.password);
+    if (match) return true;
     return false;
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -64,10 +52,10 @@ export const getPasswordBeekeeper = async (idBk, password) => {
 
 export const notifyPasswordChange = async () => {
   try {
-    const threeMonths = (90 * 24 * 60 * 60 * 1000); //90 dias en milisegundos
+    const threeMonths = 90 * 24 * 60 * 60 * 1000; //90 dias en milisegundos
     const now = new Date();
     const lastChange = new Date(
-      BeekeeperModel.findAll({ attributes: lastChange })
+      BeekeeperModel.findAll({ attributes: ["lastChange"] })
     );
 
     for (user of lastChange) {
@@ -105,10 +93,13 @@ export const deleteBeekeeper = async (idBK) => {
   } catch (error) {}
 };
 
-export const setPasswordBeekeeper = async (idBK, password) => {
+export const setPasswordBeekeeper = async (idBK, newPassword) => {
   try {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    newPassword = hashedPassword;
     await BeekeeperModel.update(
-      { password },
+      { password: newPassword },
       {
         where: {
           idBK,
@@ -121,7 +112,6 @@ export const setPasswordBeekeeper = async (idBK, password) => {
         user.lastChange = new Date();
       }
     });
-    return res.status(200).json({ msg: "Contraseña actualizada con éxito." });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -135,3 +125,7 @@ export const getIdBeekeepers = async (idUser) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+
+export const getBeekeeper = async () => {};
+export const getAllBeekeepers = async () => {};

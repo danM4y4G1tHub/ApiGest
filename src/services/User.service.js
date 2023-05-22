@@ -1,11 +1,11 @@
 import { UserModel } from "../models/User.model.js";
 import { nanoid } from "nanoid";
 
-export const createUser = async (rol, active, accountConfirm) => {
+export const createUser = async (rol, accountConfirm) => {
   try {
     const newUser = await UserModel.create({
       rol,
-      active,
+      active: true,
       tokenConfirm: nanoid(8),
       accountConfirm,
     });

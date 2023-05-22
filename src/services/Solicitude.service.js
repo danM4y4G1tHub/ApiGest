@@ -28,14 +28,10 @@ export const createSolicitude = async (
     return res.status(500).json({ message: error.message });
   }
 };
+
 export const getDataSolicitude = async (idApplic) => {
   try {
-    const newSol = await SolicitudeModel.findOne({
-      where: {
-        idApplic
-      }
-    });
-
+    const newSol = await SolicitudeModel.findOne({ where: { idApplic } });
     return newSol.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -44,24 +40,20 @@ export const getDataSolicitude = async (idApplic) => {
 
 export const getCIApplicant = async (ciApplic) => {
   try {
-    const newSol = await SolicitudeModel.findOne({
-      where: {
-        ciApplic
-      }
-    });
-
+    const newSol = await SolicitudeModel.findOne({ where: { ciApplic } });
     return newSol;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-}
+};
+
 export const updateSolicitude = async (idApplic, state) => {
   try {
-    SolicitudeModel.update({state}, {where: {
-      idApplic
-    }}).then(result => {
-      return result;
-    });
+    SolicitudeModel.update({ state }, { where: { idApplic } }).then(
+      (result) => {
+        return result;
+      }
+    );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

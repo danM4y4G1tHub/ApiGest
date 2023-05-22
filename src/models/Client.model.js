@@ -42,12 +42,6 @@ ClientModel.beforeCreate(async (client) => {
   client.password = hashedPassword;
 });
 
-ClientModel.beforeUpdate(async (client) => {
-  if (client.changed("password")) {
-    client.password = bcrypt.hashSync(client.password, 10);
-  }
-});
-
 ClientModel.hasMany(OrderModel, {
   foreignKey: "idClient",
   sourceKey: "idClient",

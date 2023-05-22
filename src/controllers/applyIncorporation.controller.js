@@ -17,13 +17,10 @@ export const registerSolicitude = async (req, res) => {
     } = req.body;
 
     const rol = "Solicitante";
-    const active = true;
-    const accountConfirm = true;
+    const accountConfirm = false;
 
-    const keyU = await createUser(rol, active, accountConfirm);
-    console.log(keyU);
+    const keyU = await createUser(rol, accountConfirm);
     const keyA = await createApplicant(keyU.idUser);
-    console.log(keyA);
     res
       .status(201)
       .json(
@@ -56,7 +53,7 @@ export const checkToken = async (req, res) => {
     const {token} = req.params;
     const keyA = await getApplicantToken(token);
 
-    if(keyA == null){
+    if(keyA.token == null){
       res.status(404).json({msg: "El token no es correcto"})
     } else{
       res.status(200).json(await getDataSolicitude(keyA.idApplic));

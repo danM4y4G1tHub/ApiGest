@@ -24,11 +24,12 @@ export const getApplicant = async (idApplic) => {
 
 export const getApplicantToken = async (token) => {
   try {
-    const newApply = await ApplicantModel.findOne({
-      where: {
-        token,
-      },
-    });
+    const newApply = await ApplicantModel.findOne(
+      { where: { token } },
+      {
+        attributes: ["idApplic", "token"],
+      }
+    );
     return newApply;
   } catch (error) {
     return res.status(500).json({ message: error.message });

@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 import { ProductModel } from "./Product.model.js";
 import { ProblemModel } from "./Problem.model.js";
@@ -23,8 +23,8 @@ export const BeekeeperModel = sequelize.define(
     },
     lastChange: {
       type: DataTypes.DATE,
-      allowNull: false
-    }
+      allowNull: false,
+    },
   },
   {
     timestamps: false,
@@ -35,12 +35,6 @@ BeekeeperModel.beforeCreate(async (bee) => {
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(bee.password, saltRounds);
   bee.password = hashedPassword;
-});
-
-BeekeeperModel.beforeUpdate(async (bee) => {
-  if (bee.changed("password")) {
-    bee.password = bcrypt.hashSync(bee.password, 10);
-  }
 });
 
 BeekeeperModel.belongsToMany(ProductModel, {

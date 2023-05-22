@@ -1,16 +1,21 @@
 import { Router } from "express";
 import {
-  guestUser,
-  changePasswordUser,
-  authUser,
-  giveUsers,
+  registerGuest,
   registerClient,
   registerBeeKeeper,
+  authBeekeeper,
+  authClient,
+  changePasswordBeekeeper,
+  giveUsers,
 } from "../controllers/loggerUser.controller.js";
 
 import {
-  registerValidator,
-  loginValidator,
+  registerValidatorClient,
+  registerValidatorBeekeeper,
+  loginValidatorClient,
+  loginValidatorBeekeeper,
+  changeValidatorClient,
+  changeValidatorBeekeeper,
 } from "../middlewares/authValidator.js";
 import { validationResultExpress } from "../middlewares/validationResultsExpress.js";
 
@@ -18,16 +23,50 @@ const router = Router();
 
 //Use Case: Loggear Usuario
 router
-  .post("/guest", guestUser)
-  .post("/register/beekeeper", registerValidator, validationResultExpress, registerBeeKeeper)
-  .post("/register/client", registerValidator, validationResultExpress, registerClient)
-  .post("/login", loginValidator, validationResultExpress, authUser)
+  .post("/guest", registerGuest)
   .post(
-    "/profile",
-    loginValidator,
+    "/register/beekeeper",
+    registerValidatorBeekeeper,
     validationResultExpress,
-    changePasswordUser
+    registerBeeKeeper
   )
+  .post(
+    "/register/client",
+    registerValidatorClient,
+    validationResultExpress,
+    registerClient
+  )
+  .post(
+    "/login/beekeeper",
+    loginValidatorBeekeeper,
+    validationResultExpress,
+    authBeekeeper
+  )
+  .post(
+    "/login/client",
+    loginValidatorClient,
+    validationResultExpress,
+    authClient
+  )
+  // .post("/login/manager", loginValidator, validationResultExpress, authMenager)
+  .post(
+    "/profile/beekeeper",
+    changeValidatorBeekeeper,
+    validationResultExpress,
+    changePasswordBeekeeper
+  )
+  // .post(
+  //   "/profile/client",
+  //   changeValidatorClient,
+  //   validationResultExpress,
+  //   changePasswordClient
+  // )
+  // .post(
+  //   "/profile/manger",
+  //   loginValidator,
+  //   validationResultExpress,
+  //   changePasswordManager
+  // )
   .get("/users", giveUsers);
 
 //Use Case: Solicitar Pedidos
