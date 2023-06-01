@@ -9,16 +9,31 @@ export const createBeekeeper = async (user, password, idApplic) => {
       lastChange: new Date(),
       idApplic,
     });
+
     return newBK.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
 
-export const getUserBeekeeper = async (idBK) => {
+export const getBeekeeper = async (idBK) => {
   try {
-    const BK = await BeekeeperModel.findByPk(idBK);
-    return BK.dataValues;
+    const BK = await BeekeeperModel.findByPk(idBK, {
+      attributes: ["user"],
+    });
+    return BK;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getUserBeekeeper = async (user) => {
+  try {
+    const BK = await BeekeeperModel.findOne({
+      where: { user },
+      attributes: ["idBK"],
+    });
+    return BK.idBK;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -39,9 +54,16 @@ export const existUser = async (user) => {
   }
 };
 
-export const getPasswordBeekeeper = async (idBK, password) => {
+export const getPasswordBeekeeper = async (user, password) => {
   try {
-    const pass = await BeekeeperModel.findByPk(idBK);
+    const pass = await BeekeeperModel.findOne(
+      {
+        where: { user },
+      },
+      {
+        attributes: ["password"],
+      }
+    );
     const match = await bcrypt.compare(password, pass.password);
     if (match) return true;
     return false;
@@ -126,6 +148,4 @@ export const getIdBeekeepers = async (idUser) => {
   }
 };
 
-
-export const getBeekeeper = async () => {};
 export const getAllBeekeepers = async () => {};

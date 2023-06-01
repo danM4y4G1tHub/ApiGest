@@ -7,6 +7,7 @@ export const createApplicant = async (idU) => {
       token: nanoid(8),
       idUser: idU,
     });
+
     return newApply.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });

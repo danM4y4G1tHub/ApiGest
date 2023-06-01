@@ -1,5 +1,6 @@
 import { UserModel } from "../models/User.model.js";
 import { nanoid } from "nanoid";
+import jwt from "jsonwebtoken";
 
 export const createUser = async (rol, accountConfirm) => {
   try {
@@ -18,7 +19,8 @@ export const createUser = async (rol, accountConfirm) => {
 export const getUser = async (idUser) => {
   try {
     const user = await UserModel.findByPk(idUser);
-    return user.dataValues;
+    const token = jwt.sign({uid: UserModel.idUser}, 'Sf1KxwRJSMeKKF2QT4fwp');
+    return token;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

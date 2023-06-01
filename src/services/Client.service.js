@@ -1,4 +1,5 @@
 import { ClientModel } from "../models/Client.model.js";
+import jwt from "jsonwebtoken";
 
 export const createClient = async (email, password, idUser) => {
   try {
@@ -94,5 +95,12 @@ export const setPasswordClient = async (idClient, newPassword) => {
   }
 };
 
-export const getClient = async (idClient) => {};
+export const getClient = async (idClient) => {
+  try {
+    const token = jwt.sign({uid: ClientModel.idClient}, 'Sf1KxwRJSMeKKF2QT4fwp');
+    return token;
+  } catch (error) {
+    
+  }
+};
 export const getAllClients = async () => {};

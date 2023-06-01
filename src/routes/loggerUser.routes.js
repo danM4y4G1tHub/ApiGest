@@ -7,6 +7,9 @@ import {
   authClient,
   changePasswordBeekeeper,
   giveUsers,
+  infoUser,
+  refreshToken,
+  logOut
 } from "../controllers/loggerUser.controller.js";
 
 import {
@@ -18,6 +21,7 @@ import {
   changeValidatorBeekeeper,
 } from "../middlewares/authValidator.js";
 import { validationResultExpress } from "../middlewares/validationResultsExpress.js";
+import { requireToken } from "../middlewares/requireToken.js";
 
 const router = Router();
 
@@ -67,7 +71,10 @@ router
   //   validationResultExpress,
   //   changePasswordManager
   // )
-  .get("/users", giveUsers);
+  .get("/users", giveUsers)
+  .get("/protected", requireToken, infoUser)
+  .get("/refresh", refreshToken)
+  .get("/logout", logOut);
 
 //Use Case: Solicitar Pedidos
 // router.post("/");
