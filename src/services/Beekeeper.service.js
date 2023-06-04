@@ -1,15 +1,14 @@
 import { BeekeeperModel } from "../models/Beekeeper.model.js";
 import bcrypt from "bcrypt";
 
-export const createBeekeeper = async (user, password, idApplic) => {
+export const createBeekeeper = async (user, password, idUser) => {
   try {
     const newBK = await BeekeeperModel.create({
       user,
       password,
       lastChange: new Date(),
-      idApplic,
+      idUser,
     });
-
     return newBK.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });

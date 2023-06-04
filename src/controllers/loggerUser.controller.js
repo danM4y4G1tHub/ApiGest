@@ -7,12 +7,13 @@ import {
   setPasswordBeekeeper,
 } from "../services/Beekeeper.service.js";
 import { createClient } from "../services/Client.service.js";
-import { getApplicant } from "../services/Applicant.service.js";
+import { getApplicant, getEmail } from "../services/Applicant.service.js";
 import { createSession } from "../services/Session.service.js";
 import {
   generateRefreshToken,
   generateToken,
 } from "../utils/tokenManager.js";
+import { sendEmail } from "../utils/sendMail.js";
 
 export const registerGuest = async (req, res) => {
   try {
@@ -32,7 +33,13 @@ export const registerClient = async (req, res) => {
   try {
     const { idUser, email, password } = req.body;
     // await getRol(idUser, rol);
-    // res.status(201).json(await createClient(email, password, idUser));
+    const Client = await createClient(email, password, idUser);
+
+    const { token } = generateToken(Client.idClient);
+    generateRefreshToken(Client.idClient, res);
+
+    await sendEmail(email, token);
+    // res.status(201).json();
   } catch (error) {
     return res.status(404).json({ message: error.message });
   }
@@ -41,7 +48,15 @@ export const registerClient = async (req, res) => {
 export const registerBeeKeeper = async (req, res) => {
   try {
     const { idApplic, user, password } = req.body;
-    res.status(201).json(await createBeekeeper(user, password, idApplic));
+    const idUser = idApplic;
+    const BK = await createBeekeeper(user, password, idUser);
+
+    const { token, expiresIn } = generateToken(BK.idBK);
+    generateRefreshToken(BK.idBK, res);
+
+    // await sendEmail(await getEmail(idApplic), token);
+    
+    res.status(201).json({ token, expiresIn});
   } catch (error) {
     res.status(403).json({ message: error.message });
     // const keyA = await getApplicant(idApplic);

@@ -37,6 +37,17 @@ export const getApplicantToken = async (token) => {
   }
 };
 
+export const getEmail = async (idApplic) => {
+  try {
+    const email = await ApplicantModel.findByPk(idApplic, {
+      attributes: ["email"]
+    });
+    return email;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 export const deleteApplicant = async (idApply) => {
   try {
     await ApplicantModel.destroy({
