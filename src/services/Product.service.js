@@ -1,7 +1,79 @@
 import { ProductModel } from "../models/Product.model.js";
 
-export const createProduct = (req, res) => {};
-export const getProduct = (req, res) => {};
-export const updateProduct = (req, res) => {};
-export const deleteProduct = (req, res) => {};
-export const getProducts = (req, res) => {};
+export const createProduct = async (nameProd, price, capacity, lot, enable) => {
+  try {
+    const newProd = await ProductModel.create({
+      nameProd,
+      price,
+      capacity,
+      lot,
+      enable,
+    });
+
+    return newProd;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteProduct = async (idProd) => {
+  try {
+    await ProductModel.destroy({
+      where: {
+        idProd,
+      },
+    });
+
+    return json({ message: "Producto eliminado" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const setNameProduct = async (idProd, nameProd) => {
+  try {
+    await ProductModel.update(nameProd, {
+      where: {
+        idProd,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const setPrice = async (idProd, price) => {
+  try {
+    await ProductModel.update(price, {
+      where: {
+        idProd,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const setCapacity = async (idProd, capacity) => {
+  try {
+    await ProductModel.update(capacity, {
+      where: {
+        idProd,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const setLot = async (idProd, lot) => {
+  try {
+    await ProductModel.update(lot, {
+      where: {
+        idProd,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

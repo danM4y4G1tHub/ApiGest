@@ -18,9 +18,7 @@ export const createBeekeeper = async (user, password, idApplic) => {
 
 export const getBeekeeper = async (idBK) => {
   try {
-    const BK = await BeekeeperModel.findByPk(idBK, {
-      attributes: ["user"],
-    });
+    const BK = await BeekeeperModel.findByPk(idBK);
     return BK;
   } catch (error) {
     return res.status(500).json({ message: error.message });

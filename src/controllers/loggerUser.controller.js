@@ -5,13 +5,14 @@ import {
   getUserBeekeeper,
   existUser,
   setPasswordBeekeeper,
-  getBeekeeper,
 } from "../services/Beekeeper.service.js";
 import { createClient } from "../services/Client.service.js";
 import { getApplicant } from "../services/Applicant.service.js";
 import { createSession } from "../services/Session.service.js";
-import jwt from "jsonwebtoken";
-import { generateRefreshToken, generateToken } from "../utils/tokenManager.js";
+import {
+  generateRefreshToken,
+  generateToken,
+} from "../utils/tokenManager.js";
 
 export const registerGuest = async (req, res) => {
   try {
@@ -110,44 +111,17 @@ export const giveUsers = async (req, res) => {
   } catch (error) {}
 };
 
-export const infoUser = async (req, res) => {
-  try {
-    //Obtiene el id del usuario tras ser validado el token en el middleware "requireToken"
-    const idBK = req.uid;
-
-    //Devuelve el usuario del Apicultor
-    res.json(await getBeekeeper(idBK));
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
 export const refreshToken = async (req, res) => {
   try {
-    const refreshTokenCookie = req.cookies.refreshToken;
-
-    if (!refreshTokenCookie) throw new Error("No existe el token.");
-
-    const { uid } = jwt.verify(refreshTokenCookie, "6AFnadovn");
-    const { token, expiresIn } = generateToken(uid);
+    const { token, expiresIn } = generateToken(req.uid);
     res.json({ token, expiresIn });
   } catch (error) {
     console.log(error.message);
-    const TokeVerificationErrors = {
-      "invalid signature": "La firma del JWT no es válida.",
-      "jwt expired": "JWT expirado",
-      "invalid token": "Token no válido.",
-      "No Bearer": "Utiliza formato Bearer.",
-      "jwt malformed": "JWT formato no válido.",
-    };
-
-    return res
-      .status(401)
-      .send({ error: TokeVerificationErrors[error.message] });
+    res.status(401).json({ error: error.message });
   }
 };
 
 export const logOut = (req, res) => {
   res.clearCookie("refreshToken");
-  res.json({ok: true});
-}
+  res.json({ ok: true });
+};

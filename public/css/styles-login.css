@@ -46,14 +46,7 @@ header{
 }
 
 .logo{
-    margin: auto;
-    font-size: 40px;
-    font-weight: bold;
-    color: #fff;
-}
-
-.logo:hover{
-    color: var(--colorYellowLog);
+    b
 }
 
 .relleno{

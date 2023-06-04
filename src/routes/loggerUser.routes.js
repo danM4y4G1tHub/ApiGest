@@ -7,7 +7,6 @@ import {
   authClient,
   changePasswordBeekeeper,
   giveUsers,
-  infoUser,
   refreshToken,
   logOut
 } from "../controllers/loggerUser.controller.js";
@@ -22,6 +21,7 @@ import {
 } from "../middlewares/authValidator.js";
 import { validationResultExpress } from "../middlewares/validationResultsExpress.js";
 import { requireToken } from "../middlewares/requireToken.js";
+import { requireRefreshToken } from "../middlewares/requireRefreshToken.js";
 
 const router = Router();
 
@@ -56,6 +56,7 @@ router
   .post(
     "/profile/beekeeper",
     changeValidatorBeekeeper,
+    requireToken,
     validationResultExpress,
     changePasswordBeekeeper
   )
@@ -72,8 +73,8 @@ router
   //   changePasswordManager
   // )
   .get("/users", giveUsers)
-  .get("/protected", requireToken, infoUser)
-  .get("/refresh", refreshToken)
+  // .get("/protected", requireToken, infoUser)
+  .get("/refresh", requireRefreshToken, refreshToken)
   .get("/logout", logOut);
 
 //Use Case: Solicitar Pedidos
