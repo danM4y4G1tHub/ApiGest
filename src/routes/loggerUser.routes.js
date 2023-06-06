@@ -8,7 +8,8 @@ import {
   changePasswordBeekeeper,
   giveUsers,
   refreshToken,
-  logOut
+  logOut,
+  confirmAcountBeekeeper,
 } from "../controllers/loggerUser.controller.js";
 
 import {
@@ -40,6 +41,7 @@ router
     validationResultExpress,
     registerClient
   )
+  .get("/confirm/:tokenConfirm", confirmAcountBeekeeper)
   .post(
     "/login/beekeeper",
     loginValidatorBeekeeper,
@@ -47,19 +49,21 @@ router
     authBeekeeper
   )
   .post(
+    "/profile/beekeeper",
+    changeValidatorBeekeeper,
+    requireToken,
+    validationResultExpress,
+    changePasswordBeekeeper
+  );
+
+router
+  .post(
     "/login/client",
     loginValidatorClient,
     validationResultExpress,
     authClient
   )
   // .post("/login/manager", loginValidator, validationResultExpress, authMenager)
-  .post(
-    "/profile/beekeeper",
-    changeValidatorBeekeeper,
-    requireToken,
-    validationResultExpress,
-    changePasswordBeekeeper
-  )
   // .post(
   //   "/profile/client",
   //   changeValidatorClient,
@@ -75,7 +79,8 @@ router
   .get("/users", giveUsers)
   // .get("/protected", requireToken, infoUser)
   .get("/refresh", requireRefreshToken, refreshToken)
-  .get("/logout", logOut);
+  .get("/logout", logOut)
+  .get("/:id/:tokenConfirm");
 
 //Use Case: Solicitar Pedidos
 // router.post("/");

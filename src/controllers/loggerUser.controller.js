@@ -1,19 +1,20 @@
-import { createUser, getAllUsers, getRol } from "../services/User.service.js";
+import { createUser, getAllUsers, getRol, setAccountConfirm } from "../services/User.service.js";
 import {
   createBeekeeper,
   getPasswordBeekeeper,
   getUserBeekeeper,
   existUser,
   setPasswordBeekeeper,
+  getBeekeeper,
 } from "../services/Beekeeper.service.js";
-import { createClient } from "../services/Client.service.js";
+import { createClient, getClient } from "../services/Client.service.js";
 import { getApplicant, getEmail } from "../services/Applicant.service.js";
 import { createSession } from "../services/Session.service.js";
 import {
   generateRefreshToken,
   generateToken,
 } from "../utils/tokenManager.js";
-import { sendEmail } from "../utils/sendMail.js";
+// import { sendEmail } from "../utils/sendMail.js";
 
 export const registerGuest = async (req, res) => {
   try {
@@ -28,6 +29,23 @@ export const registerGuest = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+export const confirmAcountClient = async (req, res) => {
+  try {
+    const {idClient, tokenConfirm} = req.params;
+
+    const Client = await getClient(idClient);
+
+    if(Client.tokenConfirm != tokenConfirm){
+      throw new Error("Token de confirmacion incorrecto");
+    }
+
+    const accountConfirm = true;
+    await setAccountConfirm(BK.idUser, accountConfirm);
+  } catch (error) {
+    return res.status(404).json({ message: error.message });
+  }
+}
 
 export const registerClient = async (req, res) => {
   try {
@@ -44,6 +62,23 @@ export const registerClient = async (req, res) => {
     return res.status(404).json({ message: error.message });
   }
 };
+
+export const confirmAcountBeekeeper = async (req, res) => {
+  try {
+    const {idBK, tokenConfirm} = req.params;
+
+    const BK = await getBeekeeper(idBK);
+    
+    if(BK.tokenConfirm != tokenConfirm){
+      throw new Error("Token de confirmacion incorrecto");
+    }
+    const accountConfirm = true;
+    await setAccountConfirm(BK.idUser, accountConfirm);
+    tokenConfirm = null;
+  } catch (error) {
+    return res.status(404).json({ message: error.message });
+  }
+}
 
 export const registerBeeKeeper = async (req, res) => {
   try {

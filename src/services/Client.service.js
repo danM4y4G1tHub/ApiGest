@@ -97,10 +97,11 @@ export const setPasswordClient = async (idClient, newPassword) => {
 
 export const getClient = async (idClient) => {
   try {
-    const token = jwt.sign({uid: ClientModel.idClient}, 'Sf1KxwRJSMeKKF2QT4fwp');
-    return token;
+    const client = await ClientModel.findByPk(idClient);
+
+    return client;
   } catch (error) {
-    
+    return res.status(500).json({ message: error.message });
   }
 };
 export const getAllClients = async () => {};

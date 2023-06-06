@@ -46,7 +46,7 @@ export const getEmail = async (idApplic) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-}
+};
 
 export const deleteApplicant = async (idApply) => {
   try {

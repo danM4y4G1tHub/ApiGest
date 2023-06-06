@@ -41,11 +41,13 @@ export const giveProduct = async (req, res) => {
     const { idProd } = req.params;
     const idBK = req.uid;
     const BK = await getBeekeeper(idBK);
-    res.status(200).json(
-      await BK.getProduct({
-        where: idProd,
-      })
-    );
+    const product = await BK.getProduct({ where: idProd });
+
+    if (!product) {
+      return res.status(401).json({ error: "No le pertenece ese id" });
+    } else {
+      res.status(200).json(product);
+    }
   } catch (error) {
     res.status(401).json({ error: error.message });
   }

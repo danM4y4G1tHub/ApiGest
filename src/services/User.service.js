@@ -19,7 +19,7 @@ export const createUser = async (rol, accountConfirm) => {
 export const getUser = async (idUser) => {
   try {
     const user = await UserModel.findByPk(idUser);
-    const token = jwt.sign({uid: UserModel.idUser}, 'Sf1KxwRJSMeKKF2QT4fwp');
+    const token = jwt.sign({ uid: UserModel.idUser }, "Sf1KxwRJSMeKKF2QT4fwp");
     return token;
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -102,6 +102,18 @@ export const getAccountConfirm = async (idUser) => {
   try {
     const confirmed = await UserModel.findByPk(idUser);
     return confirmed;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const setAccountConfirm = async (idUser, accountConfirm) => {
+  try {
+    await UserModel.update(accountConfirm, {
+      where: {
+        idUser,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
