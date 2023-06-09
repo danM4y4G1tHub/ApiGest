@@ -4,7 +4,6 @@ import { validationResultExpress } from "../middlewares/validationResultsExpress
 import {
   checkCI,
   checkToken,
-  giveApplicants,
   registerSolicitude,
   changeState,
 } from "../controllers/applyIncorporation.controller.js";
@@ -18,7 +17,6 @@ router
     validationResultExpress,
     registerSolicitude
   )
-  .get("/requesters", giveApplicants)
   .get("/state/token/:token", checkToken)
   .get("/state/cell/:ciApplic", checkCI)
   .patch("/state/change/:idApplic/:state", changeState);

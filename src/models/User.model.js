@@ -15,6 +15,48 @@ export const UserModel = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    nameApplic: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    lastNameApplic: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    ciApplic: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+    },
+    certificApplic: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
+    telefApplic: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    emailApplic: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+    },
+    provApplic: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    munApplic: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    direction: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    state: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     rol: {
       type: DataTypes.STRING,
       allowNull: false,

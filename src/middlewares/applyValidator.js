@@ -1,11 +1,14 @@
 import { body } from "express-validator";
+import { existEmail } from "../services/User.service.js";
+
+const permit = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/;
 
 export const solicitudeValidator = [
   body("nameApplic")
     .trim()
     .notEmpty()
     .withMessage("El campo Nombre no puede estar vacío.")
-    .isAlpha()
+    .matches(permit)
     .withMessage("El campo Nombre solo puede tener letras.")
     .isLength({ min: 3, max: 40 })
     .withMessage(
@@ -17,13 +20,12 @@ export const solicitudeValidator = [
     .trim()
     .notEmpty()
     .withMessage("El campo Apellido no puede estar vacío.")
-    .isAlpha()
+    .matches(permit)
     .withMessage("El campo Apellido solo puede tener letras.")
     .isLength({ min: 3, max: 40 })
     .withMessage(
       "El campo Apellido debe tener una longitud mínima de 3 caracteres."
     )
-    .matches(/^(?:[A-Z][a-z]*\s?)+$/)
     .withMessage("El campo Apellido debe comenzar con mayúscula."),
   body("ciApplic")
     .trim()
@@ -50,19 +52,12 @@ export const solicitudeValidator = [
   body("emailApplic")
     .trim()
     .notEmpty()
+    .custom(async (emailApplic) => {
+      if(await existEmail(emailApplic)){
+        throw new Error("El E-mail ya está ocupado por otra persona.");
+      }
+    })
     .isEmail()
     .withMessage("Formato de email incorrecto.")
-    .normalizeEmail(),
-  body("street")
-    .trim()
-    .notEmpty()
-    .withMessage("El campo Calle no puede estar vacío.")
-    .isAlpha()
-    .withMessage("El campo Calle solo puede tener caracteres."),
-  body("noStreet")
-    .optional()
-    .notEmpty()
-    .withMessage("El campo No. Calle no puede estar vacío.")
-    .isNumeric()
-    .withMessage("La campo No. Calle solo puede tener caracteres numéricos"),
+    .normalizeEmail()
 ];

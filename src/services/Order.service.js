@@ -1,7 +1,12 @@
 import { OrderModel } from "../models/Order.model.js";
 
-export const createOrder = (req, res) => {};
-export const getOrder = (req, res) => {};
-export const updateOrder = (req, res) => {};
-export const deleteOrder = (req, res) => {};
-export const getOrders = (req, res) => {};
+export const createOrder = async (req, res) => {};
+export const getOrder = async (req, res) => {};
+export const updateOrder = async (req, res) => {};
+export const deleteOrder = async (req, res) => {};
+export const getOrders = async (provApplic, nameProd) => {
+    try {
+    } catch (error) {
+        
+    }
+};

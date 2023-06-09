@@ -32,7 +32,8 @@ export const getUserBeekeeper = async (user) => {
     });
     return BK.idBK;
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    if(error.TypeError == "Cannot read properties of null (reading 'idBK')" )
+      return res.status(500).json({ BK: null });
   }
 };
 

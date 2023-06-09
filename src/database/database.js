@@ -5,7 +5,9 @@ export const sequelize = new Sequelize(
     "postgres", 
     "Hawkeye", 
     {
-    host: "localhost",
-    dialect: "postgres",
+    // host: "localhost",
+    // dialect: "postgres",
+    dialect: "sqlite",
+    storage: "./database.sqlite",
     }
 );

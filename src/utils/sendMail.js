@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 export const sendTokenApplicant = async (email, message, token) => {
   try {
     const transport = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
+      host: "smtp.gmail.com",
       port: 2525,
       auth: {
         user: "acd337f29334da",
@@ -18,6 +18,7 @@ export const sendTokenApplicant = async (email, message, token) => {
       html: `<a href="http://localhost:3000/api/v1/auth/confirm/${token}">Verifica tu cuenta aquí</a>`, // html body
     });
   } catch (error) {
+    console.log(error);
     return json({ error: error.message });
   }
 };
@@ -66,7 +67,7 @@ export const notifyBeekeeperChangePassword = async (email, message) => {
   }
 }
 
-export const notifyClientRegister = async (email, message) => {
+export const notifyClientRegister = async (email, tokenConfirm, message) => {
   try {
     const transport = nodemailer.createTransport({
       host: "sandbox.smtp.mailtrap.io",

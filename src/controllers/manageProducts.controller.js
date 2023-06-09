@@ -19,10 +19,10 @@ import {
   getSales,
 } from "../services/Sale.service.js";
 import { where } from "sequelize";
-import { BeekeeperModel } from "../models/Beekeeper.model.js";
 
 export const registerProduct = async (req, res) => {
   try {
+    console.log(req.headers);
     const { nameProd, price, capacity, lot, enable } = req.body;
     const idBK = req.uid;
     let BK = await getBeekeeper(idBK);

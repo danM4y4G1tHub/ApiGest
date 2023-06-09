@@ -1,4 +1,4 @@
-import { createUser, getAllUsers, getRol, setAccountConfirm } from "../services/User.service.js";
+import { createUser, getRol, setAccountConfirm } from "../services/User.service.js";
 import {
   createBeekeeper,
   getPasswordBeekeeper,
@@ -11,7 +11,6 @@ import { createClient, getClient } from "../services/Client.service.js";
 import { getApplicant, getEmail } from "../services/Applicant.service.js";
 import { createSession } from "../services/Session.service.js";
 import {
-  generateRefreshToken,
   generateToken,
 } from "../utils/tokenManager.js";
 // import { sendEmail } from "../utils/sendMail.js";
@@ -54,7 +53,7 @@ export const registerClient = async (req, res) => {
     const Client = await createClient(email, password, idUser);
 
     const { token } = generateToken(Client.idClient);
-    generateRefreshToken(Client.idClient, res);
+    // generateRefreshToken(Client.idClient, res);
 
     await sendEmail(email, token);
     // res.status(201).json();
@@ -86,12 +85,12 @@ export const registerBeeKeeper = async (req, res) => {
     const idUser = idApplic;
     const BK = await createBeekeeper(user, password, idUser);
 
-    const { token, expiresIn } = generateToken(BK.idBK);
-    generateRefreshToken(BK.idBK, res);
+    const { token } = generateToken(BK.idBK);
+    // generateRefreshToken(BK.idBK, res);
 
     // await sendEmail(await getEmail(idApplic), token);
     
-    res.status(201).json({ token, expiresIn});
+    res.status(201).json({ token});
   } catch (error) {
     res.status(403).json({ message: error.message });
     // const keyA = await getApplicant(idApplic);
@@ -119,6 +118,7 @@ export const authBeekeeper = async (req, res) => {
   try {
     //Destructura el json para obtener cada parametro
     const { user, password } = req.body;
+    console.log(req.body);
 
     //Hace un llamado a la funcion getUserBeekeeper para obtener el id del usuario a loggear
     const valid = await getUserBeekeeper(user);
@@ -132,11 +132,11 @@ export const authBeekeeper = async (req, res) => {
     }
 
     //Obtiene el jsonwebtoken de ese usuario para cargar su sesion
-    const { token, expiresIn } = generateToken(valid);
-    generateRefreshToken(valid, res);
-    res.status(200).json({ token, expiresIn });
+    const { token } = generateToken(valid);
+    // generateRefreshToken(valid, res);
+    res.status(200).json({ token });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(404).json({ message: "Error de autenticacion" });
   }
 };
 
@@ -155,23 +155,18 @@ export const authClient = async (req, res) => {
   } catch (error) {}
 };
 
-export const giveUsers = async (req, res) => {
-  try {
-    res.status(200).json(await getAllUsers());
-  } catch (error) {}
-};
-
-export const refreshToken = async (req, res) => {
-  try {
-    const { token, expiresIn } = generateToken(req.uid);
-    res.json({ token, expiresIn });
-  } catch (error) {
-    console.log(error.message);
-    res.status(401).json({ error: error.message });
-  }
-};
-
 export const logOut = (req, res) => {
-  res.clearCookie("refreshToken");
+  res.clearCookie("token");
+  // res.clearCookie("refreshToken");
   res.json({ ok: true });
 };
+
+// export const refreshToken = async (req, res) => {
+//   try {
+//     const { token, expiresIn } = generateToken(req.uid);
+//     res.json({ token, expiresIn });
+//   } catch (error) {
+//     console.log(error.message);
+//     res.status(401).json({ error: error.message });
+//   }
+// };

@@ -1,13 +1,36 @@
 import { UserModel } from "../models/User.model.js";
-import { nanoid } from "nanoid";
 import jwt from "jsonwebtoken";
 
-export const createUser = async (rol, accountConfirm) => {
+export const createUser = async (
+  nameApplic,
+  lastNameApplic,
+  ciApplic,
+  certificApplic,
+  telefApplic,
+  emailApplic,
+  provApplic,
+  munApplic,
+  direction,
+  state,
+  rol,
+  tokenConfirm,
+  accountConfirm
+) => {
   try {
     const newUser = await UserModel.create({
+      nameApplic,
+      lastNameApplic,
+      ciApplic,
+      certificApplic,
+      telefApplic,
+      emailApplic,
+      provApplic,
+      munApplic,
+      direction,
+      state,
       rol,
       active: true,
-      tokenConfirm: nanoid(8),
+      tokenConfirm,
       accountConfirm,
     });
     return newUser.dataValues;
@@ -114,6 +137,24 @@ export const setAccountConfirm = async (idUser, accountConfirm) => {
         idUser,
       },
     });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const existEmail = async (emailApplic) => {
+  try {
+    const exist = await UserModel.findOne({
+      where: {
+        emailApplic,
+      },
+    });
+
+    if (exist) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

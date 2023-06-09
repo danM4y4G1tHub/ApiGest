@@ -1,3 +1,4 @@
+import { BeekeeperModel } from "../models/Beekeeper.model.js";
 import { ProductModel } from "../models/Product.model.js";
 
 export const createProduct = async (nameProd, price, capacity, lot, enable) => {
@@ -73,6 +74,30 @@ export const setLot = async (idProd, lot) => {
         idProd,
       },
     });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getAllsByProduct = async (nameProd) => {
+  try {
+    return ProductModel.findAll({
+      where: {
+        nameProd,
+      },
+    })
+      .then((product) => {
+        return BeekeeperModel.findAll({
+          attributes: ["nameBK"],
+          include: [
+            {
+              model: ProductModel,
+              attributes: ["idProd", "price", "capacity", "lot"],
+              where: { idProd: product.idProd, enable: true },
+            },
+          ],
+        });
+      });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

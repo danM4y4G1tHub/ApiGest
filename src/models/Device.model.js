@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
-import { IPDirectionModel } from "./IPDirection.model.js";
 
 export const DeviceModel = sequelize.define(
   "Device",
@@ -10,6 +9,14 @@ export const DeviceModel = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
+    idUser: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    idSession: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     typeDevice: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -18,11 +25,12 @@ export const DeviceModel = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    ipDir: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
   },
   {
     timestamps: false,
   }
 );
-
-DeviceModel.belongsToMany(IPDirectionModel, { through: "DeviceIPDirection" });
-IPDirectionModel.belongsToMany(DeviceModel, { through: "DeviceIPDirection" });

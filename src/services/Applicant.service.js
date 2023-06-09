@@ -1,11 +1,11 @@
 import { ApplicantModel } from "../models/Applicant.model.js";
 import { nanoid } from "nanoid";
 
-export const createApplicant = async (idU) => {
+export const createApplicant = async (idUser) => {
   try {
     const newApply = await ApplicantModel.create({
       token: nanoid(8),
-      idUser: idU,
+      idUser
     });
 
     return newApply.dataValues;
