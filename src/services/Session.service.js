@@ -1,11 +1,11 @@
 import { SessionModel } from "../models/Session.model.js";
 
-export const createSession = async (duration, timesConnected, keyU) => {
+export const createSession = async (duration, timesConnected, idUser) => {
     try {
         const newSess = await SessionModel.create({
             duration,
             timesConnected,
-            keyU
+            idUser
         });
 
         return newSess.dataValues;

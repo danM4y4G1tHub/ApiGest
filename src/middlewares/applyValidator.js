@@ -1,5 +1,5 @@
 import { body } from "express-validator";
-import { existEmail } from "../services/User.service.js";
+import { existCIApplic, existEmail } from "../services/User.service.js";
 
 const permit = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/;
 
@@ -27,6 +27,11 @@ export const solicitudeValidator = [
       "El campo Apellido debe tener una longitud mínima de 3 caracteres."
     )
     .withMessage("El campo Apellido debe comenzar con mayúscula."),
+  body("ciApplic").custom(async (ciApplic) => {
+    if (await existCIApplic(ciApplic)) {
+      throw new Error("El CI ya pertenece a otro usuario.");
+    }
+  }),
   body("ciApplic")
     .trim()
     .notEmpty()
@@ -49,15 +54,15 @@ export const solicitudeValidator = [
     .withMessage(
       "El campo Teléfono debe tener una longitud mínima de 8 caracteres numéricos."
     ),
+  body("emailApplic").custom(async (emailApplic) => {
+    if (await existEmail(emailApplic)) {
+      throw new Error("El E-mail ya está ocupado por otra persona.");
+    }
+  }),
   body("emailApplic")
     .trim()
     .notEmpty()
-    .custom(async (emailApplic) => {
-      if(await existEmail(emailApplic)){
-        throw new Error("El E-mail ya está ocupado por otra persona.");
-      }
-    })
     .isEmail()
     .withMessage("Formato de email incorrecto.")
-    .normalizeEmail()
+    .normalizeEmail(),
 ];

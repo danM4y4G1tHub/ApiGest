@@ -1,36 +1,34 @@
-import { getBeekeeper } from "../services/Beekeeper.service.js";
-import { createProduct } from "../services/Product.service.js";
-
-import { createProblem, getProblem } from "../services/Problem.service.js";
+import {
+  agregateProduct,
+  existBeekeeper,
+  productsBeekeeper,
+} from "../services/Beekeeper.service.js";
 
 import {
-  createOrder,
-  getOrder,
-  updateOrder,
-  deleteOrder,
-  getOrders,
-} from "../services/Order.service.js";
-
-import {
-  createSale,
-  getSale,
-  updateSale,
-  deleteSale,
-  getSales,
-} from "../services/Sale.service.js";
-import { where } from "sequelize";
+  createProduct,
+  deleteProduct,
+  getProduct,
+  updateProduct,
+} from "../services/Product.service.js";
 
 export const registerProduct = async (req, res) => {
   try {
-    console.log(req.headers);
     const { nameProd, price, capacity, lot, enable } = req.body;
     const idBK = req.uid;
-    let BK = await getBeekeeper(idBK);
-    const product = await createProduct(nameProd, price, capacity, lot, enable);
-    console.log(BK);
-    BK.addProducts([product]);
-    // res.status(201).json(await BK.getProducts());
-    res.json({ ok: true });
+
+    if (await existBeekeeper(idBK)) {
+      const product = await createProduct(
+        nameProd,
+        price,
+        capacity,
+        lot,
+        enable
+      );
+      await agregateProduct(idBK, product);
+      res.status(201).json(await productsBeekeeper(idBK));
+    } else {
+      throw new Error("No tiene permiso para agregar productos.");
+    }
   } catch (error) {
     res.status(401).json({ error: error.message });
   }
@@ -40,13 +38,12 @@ export const giveProduct = async (req, res) => {
   try {
     const { idProd } = req.params;
     const idBK = req.uid;
-    const BK = await getBeekeeper(idBK);
-    const product = await BK.getProduct({ where: idProd });
-
-    if (!product) {
-      return res.status(401).json({ error: "No le pertenece ese id" });
+    if (await existBeekeeper(idBK)) {
+      res.status(201).json(await getProduct(idProd));
     } else {
-      res.status(200).json(product);
+      throw new Error(
+        "Usuario no válido, no tiene permiso para ver el producto."
+      );
     }
   } catch (error) {
     res.status(401).json({ error: error.message });
@@ -56,18 +53,76 @@ export const giveProduct = async (req, res) => {
 export const giveProducts = async (req, res) => {
   try {
     const idBK = req.uid;
-    const BK = await getBeekeeper(idBK);
-    res.status(200).json(await BK.getProducts());
+
+    if (await existBeekeeper(idBK)) {
+      res.status(201).json(await productsBeekeeper(idBK));
+    } else {
+      throw new Error(
+        "Usuario no válido, no tiene permiso para ver los productos."
+      );
+    }
   } catch (error) {
     res.status(401).json({ error: error.message });
   }
 };
-//llenarTablaProductos
-//verificarProductoAAgregar, cargarPaginaAdicionarProducto, validarDatosProducto, confirmarProductoAAgragar, crearProducto, actualizarTabla
-//verificarProductoAActualizar, cargarPaginaModificarProducto, validarDatosProducto, confirmarProductoA, actualizarProducto, actualizarTabla
-//verificarProductoAEliminar, confirmarProductoAEliminar, eliminarProducto, actualizarTabla
 
-//cargarVentasMes, confirmarPDF, crearPDF
-//cargarVentasAnual, confirmarPDF, crearPDF
+export const modifyProduct = async (req, res) => {
+  try {
+    const { idProd, nameProd, price, capacity, lot, enable } = req.body;
+    const idBK = req.uid;
 
-//validarDatosProblema, confirmarEnviaProblema, agregarProblema, enviarProblema
+    if (await existBeekeeper(idBK)) {
+      const changed = await updateProduct(
+        idProd,
+        nameProd,
+        price,
+        capacity,
+        lot,
+        enable
+      );
+
+      if (!changed) {
+        return res.status(404).json({ error: "No existe el producto." });
+      } else {
+        res.status(202).json(changed);
+      }
+    } else {
+      throw new Error(
+        "Usuario no válido, no tiene permiso para modificar el producto."
+      );
+    }
+  } catch (error) {
+    return res.status(404).json({ error: error.message });
+  }
+};
+
+export const removeProduct = async (req, res) => {
+  try {
+    const { idProd } = req.params;
+    const idBK = req.uid;
+
+    if (await existBeekeeper(idBK)) {
+      res.status(200).json(await deleteProduct(idProd));
+    } else {
+      throw new Error(
+        "Usuario no válido, no tiene permiso para eliminar el producto."
+      );
+    }
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+};
+
+export const removeAllProducts = async (req, res) => {
+  try {
+    const { idProds } = req.body;
+    const idBK = req.uid;
+
+    if(await existBeekeeper(idBK)){
+      await deleteAllProductsBeekeeper(idBK, idProds);
+      res.status(204).json({message: "Productos eliminados"});
+    }
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+};

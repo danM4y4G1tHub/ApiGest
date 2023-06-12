@@ -3,16 +3,16 @@ import nodemailer from "nodemailer";
 export const sendTokenApplicant = async (email, message, token) => {
   try {
     const transport = nodemailer.createTransport({
-      host: "smtp.gmail.com",
+      host: "sandbox.smtp.mailtrap.io",
       port: 2525,
       auth: {
-        user: "acd337f29334da",
-        pass: "7340dcac0169a4",
+        user: "daniel maya",
+        pass: "dmnwi7jsUGTnMq9",
       },
     });
 
     await transport.sendMail({
-      from: '"Fred Foo 👻" <foo@example.com>', // sender address
+      from: '"Fred Foo 👻" <danielahmedmaya@gmail.com>', // sender address
       to: email, // list of receivers
       subject: message, // Subject line
       html: `<a href="http://localhost:3000/api/v1/auth/confirm/${token}">Verifica tu cuenta aquí</a>`, // html body

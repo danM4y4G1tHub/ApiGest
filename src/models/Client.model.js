@@ -2,8 +2,7 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 import { OrderModel } from "./Order.model.js";
 
-import pkg, { hash } from "bcrypt";
-const { bcrypt } = pkg;
+import bcrypt from "bcrypt";
 
 export const ClientModel = sequelize.define(
   "Client",
@@ -51,7 +50,3 @@ OrderModel.belongsTo(ClientModel, {
   foreignKey: "idClient",
   targetKey: "idClient",
 });
-
-ClientModel.prototype.validPassword = async (password, hash) => {
-  return await bcrypt.compareSync(password, hash);
-};

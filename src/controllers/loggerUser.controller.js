@@ -1,4 +1,9 @@
-import { createUser, getRol, setAccountConfirm } from "../services/User.service.js";
+import {
+  createUserGuest,
+  getRol,
+  setAccountConfirm,
+  setRol,
+} from "../services/User.service.js";
 import {
   createBeekeeper,
   getPasswordBeekeeper,
@@ -8,22 +13,20 @@ import {
   getBeekeeper,
 } from "../services/Beekeeper.service.js";
 import { createClient, getClient } from "../services/Client.service.js";
-import { getApplicant, getEmail } from "../services/Applicant.service.js";
 import { createSession } from "../services/Session.service.js";
-import {
-  generateToken,
-} from "../utils/tokenManager.js";
+import { generateToken, generateTokenGuest } from "../utils/tokenManager.js";
 // import { sendEmail } from "../utils/sendMail.js";
 
 export const registerGuest = async (req, res) => {
   try {
-    const { rol, accountConfirm } = req.body;
-    const keyU = await createUser(rol, accountConfirm);
+    const { rol } = req.body;
+    const keyU = await createUserGuest(rol);
 
-    // const duration = 5;
-    // const timesConnected = 1;
-    // const session = await createSession(duration, timesConnected, keyU.idUser);
-    res.status(201).json(keyU);
+    const { token } = generateTokenGuest(keyU.idUser);
+    const duration = 5;
+    const timesConnected = 1;
+    const session = await createSession(duration, timesConnected, keyU.idUser);
+    res.status(201).json(token);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -31,11 +34,11 @@ export const registerGuest = async (req, res) => {
 
 export const confirmAcountClient = async (req, res) => {
   try {
-    const {idClient, tokenConfirm} = req.params;
+    const { idClient, tokenConfirm } = req.params;
 
     const Client = await getClient(idClient);
 
-    if(Client.tokenConfirm != tokenConfirm){
+    if (Client.tokenConfirm != tokenConfirm) {
       throw new Error("Token de confirmacion incorrecto");
     }
 
@@ -44,7 +47,7 @@ export const confirmAcountClient = async (req, res) => {
   } catch (error) {
     return res.status(404).json({ message: error.message });
   }
-}
+};
 
 export const registerClient = async (req, res) => {
   try {
@@ -56,7 +59,7 @@ export const registerClient = async (req, res) => {
     // generateRefreshToken(Client.idClient, res);
 
     await sendEmail(email, token);
-    // res.status(201).json();
+    // res.status(201).json({ message: "Cliente registrado con éxito." });
   } catch (error) {
     return res.status(404).json({ message: error.message });
   }
@@ -64,11 +67,11 @@ export const registerClient = async (req, res) => {
 
 export const confirmAcountBeekeeper = async (req, res) => {
   try {
-    const {idBK, tokenConfirm} = req.params;
+    const { idBK, tokenConfirm } = req.params;
 
     const BK = await getBeekeeper(idBK);
-    
-    if(BK.tokenConfirm != tokenConfirm){
+
+    if (BK.tokenConfirm != tokenConfirm) {
       throw new Error("Token de confirmacion incorrecto");
     }
     const accountConfirm = true;
@@ -77,23 +80,26 @@ export const confirmAcountBeekeeper = async (req, res) => {
   } catch (error) {
     return res.status(404).json({ message: error.message });
   }
-}
+};
 
 export const registerBeeKeeper = async (req, res) => {
   try {
-    const { idApplic, user, password } = req.body;
-    const idUser = idApplic;
-    const BK = await createBeekeeper(user, password, idUser);
+    const { idUser, user, password } = req.body;
+    const rol = "Apicultor";
+    await setRol(idUser, rol);
+    const idBK = await createBeekeeper(user, password, idUser);
 
-    const { token } = generateToken(BK.idBK);
+    const { token } = generateToken(idBK);
+
+    // const duration = 5;
+    // const timesConnected = 1;
+    // const session = await createSession(duration, timesConnected, keyU.idUser);
     // generateRefreshToken(BK.idBK, res);
-
     // await sendEmail(await getEmail(idApplic), token);
-    
-    res.status(201).json({ token});
+
+    res.status(201).json({ message: "Apicultor registrado con éxito.", token });
   } catch (error) {
     res.status(403).json({ message: error.message });
-    // const keyA = await getApplicant(idApplic);
   }
 };
 
@@ -118,7 +124,6 @@ export const authBeekeeper = async (req, res) => {
   try {
     //Destructura el json para obtener cada parametro
     const { user, password } = req.body;
-    console.log(req.body);
 
     //Hace un llamado a la funcion getUserBeekeeper para obtener el id del usuario a loggear
     const valid = await getUserBeekeeper(user);
@@ -134,7 +139,7 @@ export const authBeekeeper = async (req, res) => {
     //Obtiene el jsonwebtoken de ese usuario para cargar su sesion
     const { token } = generateToken(valid);
     // generateRefreshToken(valid, res);
-    res.status(200).json({ token });
+    res.status(202).json({ token });
   } catch (error) {
     res.status(404).json({ message: "Error de autenticacion" });
   }

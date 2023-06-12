@@ -1,13 +1,11 @@
-import { createUser, getAllUsers } from "../services/User.service.js";
-import { nanoid } from "nanoid";
+import { createUserApplicant } from "../services/User.service.js";
 
 import {
   createApplicant,
-  getApplicant,
   getApplicantToken,
 } from "../services/Applicant.service.js";
 
-import { sendTokenApplicant } from "../utils/sendMail.js";
+// import { sendTokenApplicant } from "../utils/sendMail.js";
 
 export const registerSolicitude = async (req, res) => {
   try {
@@ -25,10 +23,9 @@ export const registerSolicitude = async (req, res) => {
 
     const rol = "Solicitante";
     const tokenConfirm = null;
-    const accountConfirm = false;
     const state = "Procesando";
 
-    const keyU = await createUser(
+    const keyU = await createUserApplicant(
       nameApplic,
       lastNameApplic,
       ciApplic,
@@ -41,19 +38,15 @@ export const registerSolicitude = async (req, res) => {
       state,
       rol,
       tokenConfirm,
-      accountConfirm
     );
 
-    console.log(keyU);
-
     const applicant = await createApplicant(keyU.idUser);
-    const message = `Utilice este token: ${applicant.token} para consultar el estado de su solicitud.`;
 
-    await sendTokenApplicant(keyU.email, message, applicant.token);
+    // const message = `Utilice este token: ${applicant.token} para consultar el estado de su solicitud.`;
+    // await sendTokenApplicant(keyU.email, message, applicant.token);
 
-    res.status(200).json({ ok: true });
+    res.status(200).json(applicant.token);
   } catch (error) {
-    console.log(error);
     res.status(404).json({ error: error.message });
   }
 };
@@ -84,17 +77,6 @@ export const checkCI = async (req, res) => {
     } else {
       res.status(200).json(data.token);
     }
-  } catch (error) {
-    res.status(404).json({ error: error.message });
-  }
-};
-
-export const changeState = async (req, res) => {
-  try {
-    const { idApplic } = req.params;
-    const { state } = req.params;
-
-    res.status(200).json(await updateSolicitude(idApplic, state));
   } catch (error) {
     res.status(404).json({ error: error.message });
   }

@@ -7,7 +7,7 @@ export const requireToken = (req, res, next) => {
     let token = req.headers?.authorization;
 
     //Verifica que se envie la cabecera
-    if (!token) throw new Error("No Bearer.");
+    if (!token) throw new Error("No Bearer");
 
     //(Bearer 2zxcDdfeveh) => Divide la cadena en dos usando " " como eje y se queda con la segunda parte de la
     //cadena
@@ -21,8 +21,6 @@ export const requireToken = (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
-
-    return res.status(401).send({error: tokenVerificationErrors[error.message]});
+    return res.status(401).json({error: tokenVerificationErrors[error.message]});
   }
 };

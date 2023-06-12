@@ -4,11 +4,23 @@ export const generateToken = (uid) => {
   try {
     // const expiresIn = 60 * 15; //15 minutos
     const token = jwt.sign({ uid }, "Sf1KxwRJSMeKKF2QT4fwp");
-    return { token};
+    return { token };
   } catch (error) {
     console.log(error);
   }
 };
+
+export const generateTokenGuest = (uid) => {
+  try {
+    // const expiresIn = 60 * 15; //15 minutos
+    const token = jwt.sign({ uid }, "Sf1KxwRJSMeKKF2QT4fwp");
+    return { token };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 
 // export const generateRefreshToken = (uid, res) => {
 //   try {
@@ -33,5 +45,5 @@ export const tokenVerificationErrors = {
   "jwt expired": "JWT expirado",
   "invalid token": "Token no válido.",
   "No Bearer": "Utiliza formato Bearer.",
-  "jwt malformed": "JWT formato no válido."
+  "jwt malformed": "JWT formato no válido.",
 };

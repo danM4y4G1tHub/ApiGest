@@ -8,6 +8,7 @@ export const ProductModel = sequelize.define(
     idProd: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      unique: true,
       autoIncrement: true,
     },
     nameProd: {
@@ -36,5 +37,16 @@ export const ProductModel = sequelize.define(
   }
 );
 
-ProductModel.belongsToMany(SaleModel, {through: "PorductOrder", timestamps: false});
-SaleModel.belongsToMany(ProductModel, {through: "PorductOrder"});
+ProductModel.belongsToMany(SaleModel, {
+  through: "ProductSale",
+  foreignKey: "idProd",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+  timestamps: false,
+});
+SaleModel.belongsToMany(ProductModel, {
+  through: "ProductSale",
+  foreignKey: "idSale",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});

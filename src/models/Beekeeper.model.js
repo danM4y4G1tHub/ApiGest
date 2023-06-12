@@ -39,11 +39,15 @@ BeekeeperModel.beforeCreate(async (bee) => {
 
 BeekeeperModel.belongsToMany(ProductModel, {
   through: "BeekeeperProduct",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
   foreignKey: "idBK",
   timestamps: false,
 });
 ProductModel.belongsToMany(BeekeeperModel, {
   through: "BeekeeperProduct",
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
   foreignKey: "idProd",
 });
 

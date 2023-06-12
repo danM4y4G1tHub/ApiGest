@@ -1,7 +1,7 @@
 import { UserModel } from "../models/User.model.js";
 import jwt from "jsonwebtoken";
 
-export const createUser = async (
+export const createUserApplicant = async (
   nameApplic,
   lastNameApplic,
   ciApplic,
@@ -14,7 +14,6 @@ export const createUser = async (
   state,
   rol,
   tokenConfirm,
-  accountConfirm
 ) => {
   try {
     const newUser = await UserModel.create({
@@ -31,10 +30,21 @@ export const createUser = async (
       rol,
       active: true,
       tokenConfirm,
-      accountConfirm,
+      accountConfirm: false,
     });
     return newUser.dataValues;
   } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const createUserGuest = async (rol) => {
+  try {
+    const guest = await UserModel.create({ rol, active: true, accountConfirm: false });
+    return guest.dataValues;
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -42,8 +52,7 @@ export const createUser = async (
 export const getUser = async (idUser) => {
   try {
     const user = await UserModel.findByPk(idUser);
-    const token = jwt.sign({ uid: UserModel.idUser }, "Sf1KxwRJSMeKKF2QT4fwp");
-    return token;
+    return user;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -58,6 +67,32 @@ export const getAllUsers = async () => {
   }
 };
 
+export const getUsersApplicants = async (rol) => {
+  try {
+    const usersApplicants = await UserModel.findAll({
+      where: { rol },
+      attributes: [
+        "idUser",
+        "nameApplic",
+        "lastNameApplic",
+        "ciApplic",
+        "certificApplic",
+        "telefApplic",
+        "emailApplic",
+        "provApplic",
+        "munApplic",
+        "direction",
+        "state",
+        "rol",
+      ],
+    });
+
+    return usersApplicants;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export const deleteUser = async (idUser) => {
   try {
     await UserModel.destroy({
@@ -67,6 +102,15 @@ export const deleteUser = async (idUser) => {
     });
     res.status(204);
   } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const setState = async (idUser, state) => {
+  try {
+    await UserModel.update({ state }, { where: { idUser } });
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -90,7 +134,6 @@ export const setRol = async (idUser, rol) => {
         },
       }
     );
-    res.status(200).json({ msg: "Rol actualizado" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -155,6 +198,20 @@ export const existEmail = async (emailApplic) => {
     } else {
       return false;
     }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const existCIApplic = async (ciApplic) => {
+  try {
+    const exist = await UserModel.findOne(
+      { where: { ciApplic } },
+      { attributes: ["ciApplic"] }
+    );
+
+    if (exist) return true;
+    return false;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

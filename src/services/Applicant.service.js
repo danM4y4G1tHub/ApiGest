@@ -5,19 +5,10 @@ export const createApplicant = async (idUser) => {
   try {
     const newApply = await ApplicantModel.create({
       token: nanoid(8),
-      idUser
+      idUser,
     });
 
     return newApply.dataValues;
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-export const getApplicant = async (idApplic) => {
-  try {
-    const newApply = await ApplicantModel.findByPk(idApplic);
-    return newApply;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -37,25 +28,12 @@ export const getApplicantToken = async (token) => {
   }
 };
 
-export const getEmail = async (idApplic) => {
+export const setApplicantToken = async (token) => {
   try {
-    const email = await ApplicantModel.findByPk(idApplic, {
-      attributes: ["email"]
-    });
-    return email;
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
-
-export const deleteApplicant = async (idApply) => {
-  try {
-    await ApplicantModel.destroy({
+    await ApplicantModel.update(token, {
       where: {
-        idApply,
+        idApplic,
       },
     });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
+  } catch (error) {}
 };

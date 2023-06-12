@@ -1,12 +1,14 @@
 import { Router } from "express";
 import { solicitudeValidator } from "../middlewares/applyValidator.js";
 import { validationResultExpress } from "../middlewares/validationResultsExpress.js";
+
 import {
   checkCI,
   checkToken,
   registerSolicitude,
-  changeState,
 } from "../controllers/applyIncorporation.controller.js";
+
+import { listApplicants, processCertificates } from "../controllers/manageWebSite.controller.js";
 
 const router = Router();
 
@@ -19,6 +21,7 @@ router
   )
   .get("/state/token/:token", checkToken)
   .get("/state/cell/:ciApplic", checkCI)
-  .patch("/state/change/:idApplic/:state", changeState);
+  .get("/applicants/:rol", listApplicants)
+  .post("/state/change", processCertificates)
 
 export default router;
