@@ -54,12 +54,19 @@ router
   );
 
 //Client
-router.post(
-  "/register/client",
-  registerValidatorClient,
-  validationResultExpress,
-  registerClient
-);
+router
+  .post(
+    "/register/client",
+    registerValidatorClient,
+    validationResultExpress,
+    registerClient
+  )
+  .post(
+    "/login/client",
+    loginValidatorClient,
+    validationResultExpress,
+    authClient
+  );
 // .post(
 //   "/profile/client",
 //   changeValidatorClient,
@@ -70,14 +77,8 @@ router.post(
 
 //Manager
 router
-  .post(
-    "/login/client",
-    loginValidatorClient,
-    validationResultExpress,
-    authClient
-  )
   .get("/:id/:tokenConfirm")
-  // .post("/register/manager", registerManager)
+  .post("/register/manager", registerManager)
   .post(
     "/login/manager",
     loginValidatorManager,

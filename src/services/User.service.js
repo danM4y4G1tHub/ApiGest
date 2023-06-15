@@ -216,7 +216,8 @@ export const deleteUser = async (idUser) => {
 
 export const getRol = async (idUser) => {
   try {
-    const rol = await UserModel.findByPk(idUser, { attributes: ["rol"] });
+    const rol = await UserModel.findByPk(idUser);
+
     return rol.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });

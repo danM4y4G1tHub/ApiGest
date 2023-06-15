@@ -3,7 +3,6 @@ import { ProductModel } from "../models/Product.model.js";
 
 export const createProduct = async (nameProd, price, capacity, lot, enable) => {
   try {
-    // console.log(nameProd, price, capacity, lot, enable)
     const newProd = await ProductModel.create({
       nameProd,
       price,
@@ -59,6 +58,7 @@ export const updateProduct = async (
 ) => {
   try {
     const product = await ProductModel.findByPk(idProd);
+    console.log(product.dataValues);
 
     if (!product) return null;
 
@@ -91,9 +91,10 @@ export const updateProduct = async (
 
     await product.save();
 
-    return product;
+    return product.dataValues;
   } catch (error) {
-    return res.status(500).json(error);
+    console.log(error.message);
+    return res.status(500).json(error.message);
   }
 };
 
@@ -105,22 +106,24 @@ const dirtyChecking = (product, nameProd, price, capacity, lot, enable) => {
     let isLotDirty = false;
     let isEnableDirty = false;
 
-    if (!product) throw new Error("No existe el producto a modificar");
-
-    if (product.nameProd !== nameProd) {
-      isNameProdDirty = true;
-    }
-    if (product.price !== price) {
-      isPriceDirty = true;
-    }
-    if (product.capacity !== capacity) {
-      isCapacityDirty = true;
-    }
-    if (product.lot !== lot) {
-      isLotDirty = true;
-    }
-    if (product.enable !== enable) {
-      isEnableDirty = true;
+    if (!product) {
+      throw new Error("No existe el producto a modificar");
+    } else {
+      if (product.nameProd !== nameProd) {
+        isNameProdDirty = true;
+      }
+      if (product.price !== price) {
+        isPriceDirty = true;
+      }
+      if (product.capacity !== capacity) {
+        isCapacityDirty = true;
+      }
+      if (product.lot !== lot) {
+        isLotDirty = true;
+      }
+      if (product.enable !== enable) {
+        isEnableDirty = true;
+      }
     }
 
     const updatedFields = [];
@@ -130,9 +133,10 @@ const dirtyChecking = (product, nameProd, price, capacity, lot, enable) => {
     updatedFields.push(isCapacityDirty);
     updatedFields.push(isLotDirty);
     updatedFields.push(isEnableDirty);
-
+    console.log(updatedFields)
     return updatedFields;
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({ message: error.message });
   }
 };

@@ -25,6 +25,7 @@ import { createSession } from "../services/Session.service.js";
 import { generateToken } from "../utils/tokenManager.js";
 import {
   createManager,
+  getManager,
   getPasswordManager,
   getUserManager,
 } from "../services/Manager.service.js";
@@ -39,7 +40,7 @@ export const registerGuest = async (req, res) => {
     const duration = 5;
     const timesConnected = 1;
     const session = await createSession(duration, timesConnected, keyU.idUser);
-    res.status(201).json({token});
+    res.status(201).json({ token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -204,7 +205,7 @@ export const registerManager = async (req, res) => {
     const keyU = await createUserManager();
     const Mgr = await createManager(ciMgr, user, password, keyU.idUser);
 
-    res.status(200).json({ok: true});
+    res.status(200).json({ ok: true });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -225,14 +226,12 @@ export const authManager = async (req, res) => {
       }
       const { token } = generateToken(valid.idUser, res);
 
-      res
-        .status(202)
-        .json({
-          token,
-          role: "Administrador",
-          user: valid.user,
-          idUser: valid.idUser,
-        });
+      res.status(202).json({
+        token,
+        role: "Administrador",
+        user: valid.user,
+        idUser: valid.idUser,
+      });
     }
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -242,27 +241,29 @@ export const authManager = async (req, res) => {
 export const returnData = async (req, res) => {
   try {
     const idUser = req.uid;
-    const data = await getUser(idUser);
 
-    if(data.rol === "Invitado"){
-      return res.status(202).json({role: "Invitado", idUser: data.idUser});
+    const { rol } = await getUser(idUser);
+
+    if (rol === "Invitado") {
+      return res.status(202).json({ role: "Invitado", idUser: data.idUser });
     }
-    if(data.rol === "Client"){
-      const dataCli = await getClient(idUser);
-      return res.status(202).json({role: "Cliente", email: dataCli.email, idUser: data.idUser});
+    if (rol === "Cliente") {
+      const { email } = await getClient(idUser);
+
+      return res.status(202).json({ role: "Cliente", email, idUser });
     }
-    if(data.rol === "Apicultor"){
-      const dataBeek = await getBeekeeper(idUser);
-      return res.status(202).json({role: "Apicultor", user: dataBeek.user, idUser: data.idUser});
+    if (rol === "Apicultor") {
+      const { user } = await getBeekeeper(idUser);
+      return res.status(202).json({ role: "Apicultor", user, idUser });
     }
-    if(data.rol === "Administrador"){
-      const dataMgr = await getManager(idUser);
-      return res.status(202).json({role: "Administrador", user: dataMgr.user, idUser: data.idUser});
+    if (rol === "Administrador") {
+      const { user } = await getManager(idUser);
+      return res.status(202).json({ role: "Administrador", user, idUser });
     }
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-}
+};
 
 // export const logOut = (req, res) => {
 //   res.clearCookie("token");

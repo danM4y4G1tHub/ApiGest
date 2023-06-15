@@ -9,6 +9,7 @@ import {
 } from "../controllers/applyIncorporation.controller.js";
 
 import { listApplicants, processCertificates } from "../controllers/manageWebSite.controller.js";
+import { requireToken } from "../middlewares/requireToken.js";
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router
   )
   .get("/state/token/:token", checkToken)
   .get("/state/cell/:ciApplic", checkCI)
-  .get("/applicants/:rol", listApplicants)
-  .post("/state/change", processCertificates)
+  .get("/applicants/:rol", requireToken, listApplicants)
+  .post("/state/change", requireToken, processCertificates)
 
 export default router;

@@ -6,6 +6,7 @@ import loggerUser from "../routes/loggerUser.routes.js";
 import manageProducts from "../routes/manageProducts.routes.js";
 import solicitudeApply from "../routes/applyIncorporation.routes.js";
 import applyOrder from "../routes/applyOrder.routes.js";
+import manageWebSite from "../routes/managWebSite.routes.js";
 
 const app = express();
 
@@ -32,5 +33,6 @@ app.use("/api/v1/solicitude", solicitudeApply);
 app.use("/api/v1/auth", loggerUser);
 app.use("/api/v1/applyOrder", applyOrder);
 app.use("/api/v1/productMgr", manageProducts);
+app.use("/api/v1/manageWebSite", manageWebSite);
 
 export default app;

@@ -2,13 +2,18 @@ import {
   getBeekeepersProduct,
   getIdBK,
 } from "../services/Beekeeper.service.js";
-import { createKart, getIdUser, getKart } from "../services/Client.service.js";
 import {
-  createOrder,
+  createKart,
+  getIdClient,
+  getKart,
+} from "../services/Client.service.js";
+import {
   createOrderTemp,
   deleteOrder,
   deleteOrders,
-  onTime,
+  modifyOrderTemp,
+  onTimeClient,
+  onTimeUser,
 } from "../services/Order.service.js";
 import { getProduct } from "../services/Product.service.js";
 import {
@@ -131,8 +136,12 @@ export const clientRegistered = async (req, res) => {
     } else {
       const orderTemp = await createOrderTemp(order, idClient);
 
-      res.status(200).json({ message: "Dispone de 24 horas para modificar su pedido o cancelarlo "
-      + " y 3 días para recogerlo.", orderTemp});
+      res.status(200).json({
+        message:
+          "Dispone de 24 horas para modificar su pedido o cancelarlo " +
+          " y 3 días para recogerlo.",
+        orderTemp,
+      });
     }
   } catch (error) {
     return res.status(404).json({ error: error.message });
@@ -141,8 +150,7 @@ export const clientRegistered = async (req, res) => {
 
 export const registerOrder = async (req, res) => {
   try {
-    if((await transferOrderTemp()))
-    res.status(201).json({});
+    if (await transferOrderTemp()) res.status(201).json({});
   } catch (error) {
     return res.status(404).json({ error: error.message });
   }
@@ -150,50 +158,67 @@ export const registerOrder = async (req, res) => {
 
 export const changeLotOrder = async (req, res) => {
   try {
-    const { lotProd } = req.params;
-    const idF = req.uid;
+    const { idOrd, lotProd } = req.body;
+    const idUser = req.uid;
+    const message = "El tiempo para modificar el pedido se ha terminado.";
 
-    const id = await getIdUser(idF.idClient);
-    if( (await getRol(id.idUser)) === "Cliente" ){
+    const { rol } = await getRol(idUser);
+    if (rol === "Cliente") {
+      const { idClient } = await getIdClient(idUser);
+      if (!(await onTimeClient(idClient))) {
+        return res.status(402).json({
+          message,
+        });
+      } else {
+        await modifyOrderTemp(idOrd, lotProd);
+        const kart = await getKart(idUser);
+        res.status(200).json(kart);
+      }
+    } else if (rol === "Invitado") {
+      if (!(await onTimeUser(idUser))) {
+        return res.status(402).json({
+          message,
+        });
+      } else {
+        await modifyOrderTemp(idOrd, lotProd);
+        const kart = await getKart(idUser);
+        res.status(200).json(kart);
+      }
     }
-
-    // if (!(await onTime(idClient))) {
-    //   return res.status(402).json({
-    //     message: "El tiempo para modificar el pedido se ha terminado.",
-    //   });
-    // } else {
-    //   const changed = await updateOrder(idClient, lotProd);
-
-    //   if (changed == null) {
-    //     return res.status(404).json({
-    //       message: "Ocurrio un error al modificar la cantidad del pedido.",
-    //     });
-    //   } else {
-    //     res.status(200).json(changed);
-    //   }
-    // }
   } catch (error) {
+    console.log(error);
     return res.status(404).json({ error: error.message });
   }
 };
 
 export const cancelOrder = async (req, res) => {
   try {
-    const idClient = req.uid;
+    const { idOrd, lotProd } = req.body;
+    const idUser = req.uid;
+    const message = "El tiempo para cancelar el pedido se ha terminado.";
 
-    if (!(await onTime(idClient))) {
-      return res.status(404).json({
-        message: "El tiempo para cancelar el pedido se ha terminado.",
-      });
-    } else {
-      const del = await deleteOrder(idOrd, idClient);
-
-      if (!del) {
-        return res.status(404).json({
-          message: "Ha ocurrido un error al intentar eliminar el pedido.",
+    const { rol } = await getRol(idUser);
+    if (rol === "Cliente") {
+      const { idClient } = await getIdClient(idUser);
+      if (!(await onTimeClient(idClient))) {
+        return res.status(402).json({
+          message,
         });
+      } else {
+        await deleteOrder(idOrd, lotProd);
+        const kart = await getKart(idUser);
+        res.status(200).json(kart);
       }
-      res.status(200).json(del);
+    } else if (rol === "Invitado") {
+      if (!(await onTimeUser(idUser))) {
+        return res.status(402).json({
+          message,
+        });
+      } else {
+        await deleteOrder(idOrd, lotProd);
+        const kart = await getKart(idUser);
+        res.status(200).json(kart);
+      }
     }
   } catch (error) {
     return res.status(404).json({ error: error.message });

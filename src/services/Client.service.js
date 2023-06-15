@@ -120,6 +120,14 @@ export const getClient = async (idUser) => {
     return res.status(500).json({ message: error.message });
   }
 };
+export const getClients = async () => {
+  try {
+    const emails = await ClientModel.findAll({ attributes: ["email"] });
+    return emails;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
 export const isRegistred = async (idUser) => {
   try {
@@ -180,17 +188,18 @@ export const getKart = async (idUser) => {
 
     return kart;
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: error.message });
   }
 };
 
-export const getIdUser = async (idClient) => {
+export const getIdClient = async (idUser) => {
   try {
-    const id = await ClientModel.findByPk(idClient, {
-      attributes: ["idUser"],
+    const idClient = await ClientModel.findOne({
+      where: { idUser },
+      attributes: ["idClient"],
     });
-
-    return id.dataValues;
-  } catch (error) {}
+    return idClient.dataValues;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };

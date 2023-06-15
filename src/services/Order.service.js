@@ -1,4 +1,4 @@
-import { raw } from "express";
+import { Op } from "sequelize";
 import { sequelize } from "../database/database.js";
 import { OrderModel } from "../models/Order.model.js";
 import { TempOrderModel } from "../models/tempOrder.model.js";
@@ -20,6 +20,15 @@ export const createOrderTemp = async (order, idClient) => {
     }
 
     return tempOrder;
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const modifyOrderTemp = async (idOrd, lotProd) => {
+  try {
+    await TempOrderModel.update(lotProd, { where: { idOrd } });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });
@@ -51,7 +60,6 @@ export const transferOrderTemp = async () => {
 
     return true;
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -98,21 +106,41 @@ export const getOrder = async (idOrd, idClient) => {
   }
 };
 
-export const onTime = async (idOrd, idClient) => {
+export const onTimeUser = async (idOrd, idUser) => {
   try {
-    if (
-      await OrderModel.findOne({
-        where: idOrd,
-        idClient,
-        dateOrd: {
-          [Op.gte]: sequelize.literal("DATE_SUB(NOW(), INTERVAL 24 HOUR)"),
-        },
-      })
-    ) {
+    const time = await OrderModel.findOne({
+      where: idOrd,
+      idUser,
+      dateOrd: {
+        [Op.gte]: sequelize.literal("DATE_SUB(NOW(), INTERVAL 24 HOUR)"),
+      },
+    });
+    if (time !== null) {
       return true;
+    } else {
+      return false;
     }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
 
-    return false;
+export const onTimeClient = async (idOrd, idClient) => {
+  try {
+    const time = await OrderModel.findOne({
+      where: idOrd,
+      idClient,
+      dateOrd: {
+        [Op.gte]: sequelize.literal("DATE_SUB(NOW(), INTERVAL 24 HOUR)"),
+      },
+    });
+
+    if (time !== null) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.message });

@@ -31,6 +31,16 @@ export const getBeekeeper = async (idUser) => {
   }
 };
 
+export const getBeekeepers = async () => {
+  try {
+    const user = BeekeeperModel.findAll({attributes: ["user"]});
+
+    return user;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
 export const getUserBeekeeper = async (user) => {
   try {
     const BK = await BeekeeperModel.findOne({
@@ -126,7 +136,6 @@ export const productsBeekeeper = async (idBK) => {
 
     return productsBK;
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -134,10 +143,7 @@ export const productsBeekeeper = async (idBK) => {
 export const deleteAllProductsBeekeeper = async (idBK, idProds) => {
   try {
     const BeeK = await BeekeeperModel.findByPk(idBK);
-
-    for (const idP of idProds) {
-      BeeK.destroy({ where: { idP } });
-    }
+    await BeeK.removeProducts(idProds);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

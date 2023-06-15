@@ -33,7 +33,6 @@ export const registerProduct = async (req, res) => {
       throw new Error("No tiene permiso para agregar productos.");
     }
   } catch (error) {
-    console.log(error);
     res.status(401).json({ error: error.message });
   }
 };
@@ -56,13 +55,14 @@ export const giveProduct = async (req, res) => {
 
 export const giveProducts = async (req, res) => {
   try {
-    const idBK = req.uid;
+    const idUser = req.uid;
 
-    if (await existBeekeeper(idBK)) {
-      if ((await productsBeekeeper(idBK)) === null) {
+    if (await existBeekeeper(idUser)) {
+      const id = await getIdBK(idUser);
+      if ((await productsBeekeeper(id.idBK)) === null) {
         res.status(205).json([]);
       } else {
-        res.status(200).json(await productsBeekeeper(idBK));
+        res.status(200).json(await productsBeekeeper(id.idBK));
       }
     } else {
       throw new Error(
@@ -77,9 +77,9 @@ export const giveProducts = async (req, res) => {
 export const modifyProduct = async (req, res) => {
   try {
     const { idProd, nameProd, price, capacity, lot, enable } = req.body;
-    const idBK = req.uid;
+    const idUser = req.uid;
 
-    if (await existBeekeeper(idBK)) {
+    if (await existBeekeeper(idUser)) {
       const changed = await updateProduct(
         idProd,
         nameProd,
@@ -92,7 +92,8 @@ export const modifyProduct = async (req, res) => {
       if (!changed) {
         return res.status(404).json({ error: "No existe el producto." });
       } else {
-        res.status(202).json(changed);
+        const idBK = await getIdBK(idUser);
+        res.status(202).json(await productsBeekeeper(idBK));
       }
     } else {
       throw new Error(
@@ -107,9 +108,9 @@ export const modifyProduct = async (req, res) => {
 export const removeProduct = async (req, res) => {
   try {
     const { idProd } = req.params;
-    const idBK = req.uid;
+    const idUser = req.uid;
 
-    if (await existBeekeeper(idBK)) {
+    if (await existBeekeeper(idUser)) {
       res.status(200).json(await deleteProduct(idProd));
     } else {
       throw new Error(
@@ -123,13 +124,13 @@ export const removeProduct = async (req, res) => {
 
 export const removeAllProducts = async (req, res) => {
   try {
-    const { idProds } = req.body;
-    const idBK = req.uid;
-    console.log(idBK);
+    const idUser = req.uid;
 
-    if (await existBeekeeper(idBK)) {
-      await deleteAllProductsBeekeeper(idBK, idProds);
-      res.status(204).json({ message: "Productos eliminados" });
+    if (await existBeekeeper(idUser)) {
+      const { idBK } = await getIdBK(idUser);
+      await deleteAllProductsBeekeeper(idBK, req.body);
+
+      res.status(204).json(await productsBeekeeper(idBK));
     }
   } catch (error) {
     res.status(401).json({ error: error.message });
