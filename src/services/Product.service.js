@@ -3,6 +3,7 @@ import { ProductModel } from "../models/Product.model.js";
 
 export const createProduct = async (nameProd, price, capacity, lot, enable) => {
   try {
+    // console.log(nameProd, price, capacity, lot, enable)
     const newProd = await ProductModel.create({
       nameProd,
       price,
@@ -19,7 +20,9 @@ export const createProduct = async (nameProd, price, capacity, lot, enable) => {
 
 export const getProduct = async (idProd) => {
   try {
-    const product = await ProductModel.findByPk(idProd);
+    const product = await ProductModel.findByPk(idProd, {
+      attributes: ["idProd", "nameProd", "price", "capacity", "lot"],
+    });
 
     return product.dataValues;
   } catch (error) {

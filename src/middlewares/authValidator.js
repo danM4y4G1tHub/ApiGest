@@ -1,6 +1,5 @@
 import { body } from "express-validator";
 import { existUser } from "../services/Beekeeper.service.js";
-import { existEmail } from "../services/Client.service.js";
 
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -70,11 +69,6 @@ export const changeValidatorBeekeeper = [
 ];
 
 export const registerValidatorClient = [
-  body("email").custom(async (email) => {
-    if (await existEmail(email)) {
-      throw new Error("El E-mail ya está ocupado por otra persona.");
-    }
-  }),
   body("email")
     .trim()
     .notEmpty()
@@ -109,17 +103,6 @@ export const loginValidatorClient = [
     .withMessage("El campo Constraseña no puede estar vacío.")
     .isLength({ min: 8 })
     .withMessage("La contraseña debe tener como mínimo 8 caracteres."),
-  body("newPassword")
-    .trim()
-    .notEmpty()
-    .withMessage("El campo Constraseña no puede estar vacío.")
-    .matches(passwordRegex)
-    .withMessage(
-      "La contraseña debe tener al menos una letra mayúscula, " +
-        "una letra minúscula, un número y un caractér especial."
-    )
-    .isLength({ min: 8 })
-    .withMessage("La contraseña debe tener como mínimo 8 caracteres."),
 ];
 
 export const changeValidatorClient = [
@@ -148,3 +131,16 @@ export const changeValidatorClient = [
     .isLength({ min: 8 })
     .withMessage("La contraseña debe tener como mínimo 8 caracteres."),
 ];
+
+export const loginValidatorManager = [
+  body("user")
+    .trim()
+    .notEmpty()
+    .withMessage("El campo Usuario no puede estar vacío."),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("El campo Constraseña no puede estar vacío.")
+    .isLength({ min: 8 })
+    .withMessage("La contraseña debe tener como mínimo 8 caracteres."),
+]

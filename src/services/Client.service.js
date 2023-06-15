@@ -1,5 +1,6 @@
 import { ClientModel } from "../models/Client.model.js";
-import jwt from "jsonwebtoken";
+import { KartModel } from "../models/Kart.model.js";
+import bcrypt from "bcrypt";
 
 export const createClient = async (email, password, idUser) => {
   try {
@@ -8,7 +9,6 @@ export const createClient = async (email, password, idUser) => {
       password,
       lastChange: new Date(),
       idUser,
-      registered: true,
     });
 
     return newCli.dataValues;
@@ -17,16 +17,22 @@ export const createClient = async (email, password, idUser) => {
   }
 };
 
-export const getEmailClient = async (idClient) => {
+export const getEmailClient = async (email) => {
   try {
-    const cli = await ClientModel.findByPk(idClient);
-    return cli.dataValues;
+    const Client = await ClientModel.findOne({
+      where: { email },
+      attributes: ["email", "idUser"],
+    });
+
+    if (!Client) return null;
+
+    return Client.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
 
-export const existEmail = async (email) => {
+export const existEmailClient = async (email) => {
   try {
     const exist = await ClientModel.findOne(
       { where: { email } },
@@ -35,16 +41,21 @@ export const existEmail = async (email) => {
       }
     );
 
-    if (exist) return true;
+    if (exist !== null) return true;
     return false;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
 
-export const getPasswordClient = async (idClient, password) => {
+export const getPasswordClient = async (email, password) => {
   try {
-    const pass = await ClientModel.findByPk(idClient);
+    const pass = await ClientModel.findOne({
+      where: {
+        email,
+      },
+      attributes: ["password"],
+    });
     const match = await bcrypt.compare(password, pass.password);
     if (match) return true;
     return false;
@@ -95,13 +106,91 @@ export const setPasswordClient = async (idClient, newPassword) => {
   }
 };
 
-export const getClient = async (idClient) => {
+export const getClient = async (idUser) => {
   try {
-    const client = await ClientModel.findByPk(idClient);
+    const client = await ClientModel.findOne({
+      where: {
+        idUser,
+      },
+      attributes: ["email"],
+    });
 
-    return client;
+    return client.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
-export const getAllClients = async () => {};
+
+export const isRegistred = async (idUser) => {
+  try {
+    if (ClientModel.findOne({ where: { idUser, registred: true } })) {
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const createKart = async (
+  idProd,
+  nameProd,
+  price,
+  capacity,
+  lotProd,
+  idBK,
+  nameApplic,
+  telefApplic,
+  direction,
+  emailApplic,
+  idUser
+) => {
+  try {
+    const newKart = await KartModel.create({
+      idProd,
+      nameProd,
+      price,
+      capacity,
+      lotProd,
+      idBK,
+      nameApplic,
+      telefApplic,
+      direction,
+      emailApplic,
+      idUser,
+    });
+
+    return newKart.dataValues;
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getKart = async (idUser) => {
+  try {
+    const kart = await KartModel.findAll({
+      raw: true,
+      where: { idUser },
+    });
+
+    if (!kart) return null;
+
+    return kart;
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getIdUser = async (idClient) => {
+  try {
+    const id = await ClientModel.findByPk(idClient, {
+      attributes: ["idUser"],
+    });
+
+    return id.dataValues;
+  } catch (error) {}
+};

@@ -3,6 +3,7 @@ import { sequelize } from "../database/database.js";
 import { OrderModel } from "./Order.model.js";
 
 import bcrypt from "bcrypt";
+import { TempOrderModel } from "./tempOrder.model.js";
 
 export const ClientModel = sequelize.define(
   "Client",
@@ -24,11 +25,7 @@ export const ClientModel = sequelize.define(
     lastChange: {
       type: DataTypes.DATE,
       allowNull: false
-    },
-    registred: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-    },
+    }
   },
   {
     timestamps: false,
@@ -37,7 +34,7 @@ export const ClientModel = sequelize.define(
 
 ClientModel.beforeCreate(async (client) => {
   const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash(bee.password, saltRounds);
+  const hashedPassword = await bcrypt.hash(client.password, saltRounds);
   client.password = hashedPassword;
 });
 
@@ -45,8 +42,16 @@ ClientModel.hasMany(OrderModel, {
   foreignKey: "idClient",
   sourceKey: "idClient",
 });
-
 OrderModel.belongsTo(ClientModel, {
+  foreignKey: "idClient",
+  targetKey: "idClient",
+});
+
+ClientModel.hasMany(TempOrderModel, {
+  foreignKey: "idClient",
+  sourceKey: "idClient",
+});
+TempOrderModel.belongsTo(ClientModel, {
   foreignKey: "idClient",
   targetKey: "idClient",
 });

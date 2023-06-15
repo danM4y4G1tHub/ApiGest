@@ -12,7 +12,7 @@ import {
 const router = Router();
 
 router
-  .post("/aggregate", requireToken, registerProduct)
+  .post("/add", requireToken, registerProduct)
   .get("/product/:idProd", requireToken, giveProduct)
   .get("/products", requireToken, giveProducts)
   .post("/modify", requireToken, modifyProduct)

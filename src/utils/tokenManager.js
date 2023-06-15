@@ -1,26 +1,15 @@
 import jwt from "jsonwebtoken";
 
-export const generateToken = (uid) => {
+export const generateToken = (uid, res) => {
   try {
     // const expiresIn = 60 * 15; //15 minutos
     const token = jwt.sign({ uid }, "Sf1KxwRJSMeKKF2QT4fwp");
+    
     return { token };
   } catch (error) {
     console.log(error);
   }
 };
-
-export const generateTokenGuest = (uid) => {
-  try {
-    // const expiresIn = 60 * 15; //15 minutos
-    const token = jwt.sign({ uid }, "Sf1KxwRJSMeKKF2QT4fwp");
-    return { token };
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-
 
 // export const generateRefreshToken = (uid, res) => {
 //   try {

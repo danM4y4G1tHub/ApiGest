@@ -1,10 +1,12 @@
 import { BeekeeperModel } from "../models/Beekeeper.model.js";
-import { QueryTypes } from "sequelize";
+import { QueryTypes, Sequelize } from "sequelize";
 import { sequelize } from "../database/database.js";
 import bcrypt from "bcrypt";
+import { ProductModel } from "../models/Product.model.js";
 
 export const createBeekeeper = async (user, password, idUser) => {
   try {
+    console.log(idUser);
     const newBK = await BeekeeperModel.create({
       user,
       password,
@@ -17,9 +19,12 @@ export const createBeekeeper = async (user, password, idUser) => {
   }
 };
 
-export const getBeekeeper = async (idBK) => {
+export const getBeekeeper = async (idUser) => {
   try {
-    const BK = await BeekeeperModel.findByPk(idBK);
+    const BK = await BeekeeperModel.findOne({
+      where: { idUser },
+      attributes: ["user"],
+    });
     return BK.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -30,9 +35,11 @@ export const getUserBeekeeper = async (user) => {
   try {
     const BK = await BeekeeperModel.findOne({
       where: { user },
-      attributes: ["idBK"],
+      attributes: ["user", "idUser"],
     });
-    return BK.idBK;
+
+    if (!BK) return null;
+    return BK.dataValues;
   } catch (error) {
     if (error.TypeError == "Cannot read properties of null (reading 'idBK')")
       return res.status(500).json({ BK: null });
@@ -94,12 +101,11 @@ export const notifyBeekeeperPasswordChange = async () => {
   }
 };
 
-export const agregateProduct = async (idBK, product) => {
+export const agregateProduct = async (idUser, product) => {
   try {
-    const beeK = await BeekeeperModel.findByPk(idBK);
+    const beeK = await BeekeeperModel.findOne({ where: { idUser } });
     await beeK.addProducts(product.idProd);
   } catch (error) {
-    console.log(error);
     return res.status(500).json({ message: error.message });
   }
 };
@@ -113,12 +119,15 @@ export const productsBeekeeper = async (idBK) => {
       WHERE 'BeekeeperProduct'.idBK = ${idBK}`,
       { type: QueryTypes.SELECT }
     );
+    
+    if( productsBK === null ){
+      return null;
+    }
+
     return productsBK;
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({ message: "Salto el catch de productsBeekeeper" });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -129,12 +138,14 @@ export const deleteAllProductsBeekeeper = async (idBK, idProds) => {
     for (const idP of idProds) {
       BeeK.destroy({ where: { idP } });
     }
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
 };
 
-export const existBeekeeper = async (idBK) => {
+export const existBeekeeper = async (idUser) => {
   try {
-    const exist = await BeekeeperModel.findByPk(idBK);
+    const exist = await BeekeeperModel.findOne({ where: { idUser } });
 
     if (exist) return true;
 
@@ -181,11 +192,47 @@ export const setPasswordBeekeeper = async (idBK, newPassword) => {
   }
 };
 
-export const getIdBeekeepers = async (idUser) => {
+export const getBeekeepersProduct = async (users, nameProd) => {
   try {
-    const idB = await BeekeeperModel.findOne({ where: { idUser } });
-    return idB;
+    const idUsers = users.map((obj) => obj.idUser);
+
+    const data = await BeekeeperModel.findAll({
+      attributes: ["idBK", "idUser"],
+      raw: true,
+      where: {
+        idUser: {
+          [Sequelize.Op.in]: idUsers,
+        },
+      },
+      include: [
+        {
+          model: ProductModel,
+          attributes: ["idProd"],
+          where: { nameProd, enable: true },
+          through: { attributes: [] },
+        },
+      ],
+    });
+
+    if (data.length === 0) return null;
+
+    return data;
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getIdBK = async (idUser) => {
+  try {
+    const id = await BeekeeperModel.findOne({
+      where: {
+        idUser,
+      },
+      attributes: ["idBK"],
+    });
+    return id.dataValues;
+  } catch (error) {
+    console.log(error);
   }
 };

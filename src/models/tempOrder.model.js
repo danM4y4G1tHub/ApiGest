@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/database.js";
 
-export const OrderModel = sequelize.define(
-  "Order",
+export const TempOrderModel = sequelize.define(
+  "OrderTemp",
   {
     idOrd: {
       type: DataTypes.INTEGER,

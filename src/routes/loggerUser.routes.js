@@ -5,9 +5,12 @@ import {
   registerBeeKeeper,
   authBeekeeper,
   authClient,
+  authManager,
   changePasswordBeekeeper,
-  logOut,
-  confirmAcountBeekeeper,
+  registerManager,
+  returnData,
+  // logOut,
+  // confirmAcountBeekeeper,
 } from "../controllers/loggerUser.controller.js";
 
 import {
@@ -17,6 +20,7 @@ import {
   loginValidatorBeekeeper,
   changeValidatorClient,
   changeValidatorBeekeeper,
+  loginValidatorManager,
 } from "../middlewares/authValidator.js";
 import { validationResultExpress } from "../middlewares/validationResultsExpress.js";
 import { requireToken } from "../middlewares/requireToken.js";
@@ -25,21 +29,16 @@ import { requireToken } from "../middlewares/requireToken.js";
 const router = Router();
 
 //Use Case: Loggear Usuario
+router.post("/guest", registerGuest);
+
+//Beekeeper
 router
-  .post("/guest", registerGuest)
   .post(
     "/register/beekeeper",
     registerValidatorBeekeeper,
     validationResultExpress,
     registerBeeKeeper
   )
-  .post(
-    "/register/client",
-    registerValidatorClient,
-    validationResultExpress,
-    registerClient
-  )
-  .get("/confirm/:tokenConfirm", confirmAcountBeekeeper)
   .post(
     "/login/beekeeper",
     loginValidatorBeekeeper,
@@ -54,6 +53,22 @@ router
     changePasswordBeekeeper
   );
 
+//Client
+router.post(
+  "/register/client",
+  registerValidatorClient,
+  validationResultExpress,
+  registerClient
+);
+// .post(
+//   "/profile/client",
+//   changeValidatorClient,
+//   validationResultExpress,
+//   changePasswordClient
+// )
+// .get("/confirm/:tokenConfirm", confirmAcountBeekeeper)
+
+//Manager
 router
   .post(
     "/login/client",
@@ -62,39 +77,23 @@ router
     authClient
   )
   .get("/:id/:tokenConfirm")
-  .get("/logout", logOut)
-  // .post("/login/manager", loginValidator, validationResultExpress, authMenager)
-  // .post(
-  //   "/profile/client",
-  //   changeValidatorClient,
-  //   validationResultExpress,
-  //   changePasswordClient
-  // )
-  // .post(
-  //   "/profile/manger",
-  //   loginValidator,
-  //   validationResultExpress,
-  //   changePasswordManager
-  // )
-  // .get("/protected", requireToken, infoUser)
-  // .get("/refresh", requireRefreshToken, refreshToken)
+  // .post("/register/manager", registerManager)
+  .post(
+    "/login/manager",
+    loginValidatorManager,
+    validationResultExpress,
+    authManager
+  );
+// .post(
+//   "/profile/manager",
+//   loginValidatorManager,
+//   validationResultExpress,
+//   changePasswordManager
+// );
 
-//Use Case: Solicitar Pedidos
-// router.post("/");
-// router.post("/");
-// router.post("/");
-// router.post("/");
+router.post("/is-user-auth", requireToken, returnData);
 
-//Use Case: Atender Pedidos
-// router.post("/");
-// router.post("/");
-// router.post("/");
-// router.post("/");
-
-//Use Case: Supervisar Sitio Web
-// router.post("/");
-// router.post("/");
-// router.post("/");
-// router.post("/");
+// .get("/lagout", logOut)
+// .get("/refresh", requireRefreshToken, refreshToken)
 
 export default router;

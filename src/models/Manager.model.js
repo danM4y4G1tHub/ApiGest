@@ -1,8 +1,7 @@
 import { DataTypes, INTEGER } from "sequelize";
 import { sequelize } from "../database/database.js";
 
-import pkg, { hash } from "bcrypt";
-const { bcrypt } = pkg;
+import bcrypt from "bcrypt";
 
 export const ManagerModel = sequelize.define(
   "Manager",
