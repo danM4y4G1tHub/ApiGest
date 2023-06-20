@@ -80,8 +80,6 @@ export const notifyPasswordChange = async () => {
   } catch (error) {}
 };
 
-export const deleteClient = (req, res) => {};
-
 export const setPasswordClient = async (idClient, newPassword) => {
   try {
     const saltRounds = 10;

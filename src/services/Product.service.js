@@ -1,4 +1,3 @@
-import { BeekeeperModel } from "../models/Beekeeper.model.js";
 import { ProductModel } from "../models/Product.model.js";
 
 export const createProduct = async (nameProd, price, capacity, lot, enable) => {
@@ -98,6 +97,36 @@ export const updateProduct = async (
   }
 };
 
+export const decreaseLot = async (idProd, lot) => {
+  try {
+    const product = await ProductModel.findByPk(idProd);
+
+    if (product.lot - lot == 0) {
+      await product.update(
+        { lot, enable: false },
+        {
+          where: {
+            idProd,
+          },
+        }
+      );
+
+      return true;
+    } else {
+      product.update(lot, {
+        where: {
+          idProd,
+        },
+      });
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json(error.message);
+  }
+};
+
 const dirtyChecking = (product, nameProd, price, capacity, lot, enable) => {
   try {
     let isNameProdDirty = false;
@@ -133,7 +162,7 @@ const dirtyChecking = (product, nameProd, price, capacity, lot, enable) => {
     updatedFields.push(isCapacityDirty);
     updatedFields.push(isLotDirty);
     updatedFields.push(isEnableDirty);
-    console.log(updatedFields)
+    console.log(updatedFields);
     return updatedFields;
   } catch (error) {
     console.log(error.message);

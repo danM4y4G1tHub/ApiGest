@@ -1,8 +1,13 @@
-import { createUserApplicant } from "../services/User.service.js";
+import {
+  createUserApplicant,
+  getCIApplicant,
+  getDataSolicitude,
+} from "../services/User.service.js";
 
 import {
   createApplicant,
   getApplicantToken,
+  getToken,
 } from "../services/Applicant.service.js";
 
 // import { sendTokenApplicant } from "../utils/sendMail.js";
@@ -37,7 +42,7 @@ export const registerSolicitude = async (req, res) => {
       direction,
       state,
       rol,
-      tokenConfirm,
+      tokenConfirm
     );
 
     const applicant = await createApplicant(keyU.idUser);
@@ -56,10 +61,10 @@ export const checkToken = async (req, res) => {
     const { token } = req.params;
     const keyA = await getApplicantToken(token);
 
-    if (keyA.token == null) {
+    if (keyA == null) {
       res.status(404).json({ msg: "El token no es correcto" });
     } else {
-      res.status(200).json(await getDataSolicitude(keyA.idApplic));
+      res.status(200).json(await getDataSolicitude(keyA.idUser));
     }
   } catch (error) {
     res.status(404).json({ error: error.message });
@@ -70,12 +75,14 @@ export const checkCI = async (req, res) => {
   try {
     const { ciApplic } = req.params;
     const keyA = await getCIApplicant(ciApplic);
-    const data = await getApplicant(keyA.idApplic);
 
-    if (data == null) {
-      res.status(404).json({ msg: "El Carnet de Identidad no coincide." });
+    if (keyA === null) {
+      return res
+        .status(404)
+        .json({ msg: "El Carnet de Identidad no coincide." });
     } else {
-      res.status(200).json(data.token);
+      const token = await getToken(keyA.idUser);
+      res.status(200).json(token);
     }
   } catch (error) {
     res.status(404).json({ error: error.message });

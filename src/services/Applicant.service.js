@@ -16,19 +16,33 @@ export const createApplicant = async (idUser) => {
 
 export const getApplicantToken = async (token) => {
   try {
-    const newApply = await ApplicantModel.findOne(
-      { where: { token } },
-      {
-        attributes: ["idApplic", "token"],
-      }
-    );
-    return newApply;
+    const tokenApplic = await ApplicantModel.findOne({
+      where: { token },
+      attributes: ["idUser", "token"],
+    });
+    console.log(tokenApplic.dataValues);
+    if (tokenApplic === []) return null;
+
+    return tokenApplic.dataValues;
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
 
-export const setApplicantToken = async (token) => {
+export const getToken = async (idUser) => {
+  try {
+    const token = await ApplicantModel.findOne({
+      where: { idUser },
+      attributes: ["token"],
+    });
+
+    return token.dataValues;
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const setApplicantToken = async (idApplic, token) => {
   try {
     await ApplicantModel.update(token, {
       where: {

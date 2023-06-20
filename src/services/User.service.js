@@ -31,6 +31,24 @@ export const existCIApplic = async (ciApplic) => {
   }
 };
 
+export const existEmail = async (emailApplic) => {
+  try {
+    const exist = await UserModel.findOne({
+      where: {
+        emailApplic,
+      },
+    });
+
+    if (exist) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export const createUserApplicant = async (
   nameApplic,
   lastNameApplic,
@@ -65,6 +83,44 @@ export const createUserApplicant = async (
     return newUser.dataValues;
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getDataSolicitude = async (idUser) => {
+  try {
+    const data = await UserModel.findByPk(idUser, {
+      attributes: [
+        "nameApplic",
+        "lastNameApplic",
+        "ciApplic",
+        "telefApplic",
+        "emailApplic",
+        "provApplic",
+        "munApplic",
+        "direction",
+        "state",
+      ],
+    });
+
+    return data.dataValues;
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const getCIApplicant = async (ciApplic) => {
+  try {
+    const ci = await UserModel.findOne({
+      where: { ciApplic },
+      attributes: ["idUser", "ciApplic"],
+    });
+
+    if (ci === []) return null;
+
+    return ci.dataValues;
+  } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
@@ -172,24 +228,6 @@ export const getInfoBee = async (idUser) => {
   }
 };
 // }
-
-export const existEmail = async (emailApplic) => {
-  try {
-    const exist = await UserModel.findOne({
-      where: {
-        emailApplic,
-      },
-    });
-
-    if (exist) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
 
 export const getUser = async (idUser) => {
   try {

@@ -9,11 +9,12 @@ import {
 } from "../services/Client.service.js";
 import {
   createOrderTemp,
-  deleteOrder,
+  deleteOrderTemp,
   deleteOrders,
   modifyOrderTemp,
   onTimeClient,
   onTimeUser,
+  transferOrderTemp,
 } from "../services/Order.service.js";
 import { getProduct } from "../services/Product.service.js";
 import {
@@ -25,7 +26,7 @@ import {
 export const listOffers = async (req, res) => {
   try {
     const { provApplic, munApplic, nameProd } = req.body;
-    //Buscar todos los usuarios que sean de esa provincia y ese municipio
+    
     const users = await userProvinceMunicipality(provApplic, munApplic);
 
     if (users === null) {
@@ -34,7 +35,7 @@ export const listOffers = async (req, res) => {
         .json({ message: "No hay ofertas de este producto por el momento." });
     }
 
-    //Buscar todos los apicultores que tengan esos ids y el nombre de ese producto
+
     const data = await getBeekeepersProduct(users, nameProd);
 
     if (data === null) {
@@ -124,9 +125,8 @@ export const showKart = async (req, res) => {
 
 export const clientRegistered = async (req, res) => {
   try {
-    const idClient = req.uid;
+    const idUser = req.uid;
     const order = req.body;
-    const { idUser } = await getIdUser(idClient);
     const { rol } = await getRol(idUser);
 
     if (rol === "Invitado") {
@@ -150,7 +150,7 @@ export const clientRegistered = async (req, res) => {
 
 export const registerOrder = async (req, res) => {
   try {
-    if (await transferOrderTemp()) res.status(201).json({});
+    await transferOrderTemp();
   } catch (error) {
     return res.status(404).json({ error: error.message });
   }
@@ -205,7 +205,7 @@ export const cancelOrder = async (req, res) => {
           message,
         });
       } else {
-        await deleteOrder(idOrd, lotProd);
+        await deleteOrderTemp(idOrd, idClient);
         const kart = await getKart(idUser);
         res.status(200).json(kart);
       }
@@ -215,7 +215,7 @@ export const cancelOrder = async (req, res) => {
           message,
         });
       } else {
-        await deleteOrder(idOrd, lotProd);
+        await deleteOrderTemp(idOrd, idClient);
         const kart = await getKart(idUser);
         res.status(200).json(kart);
       }
@@ -239,3 +239,7 @@ export const cancelOrders = async (req, res) => {
 };
 //buscarUsuarioPedido, cargarPedidos, calcularImporte, modificarPedido, eliminarpedido, validarUsuarioRegistrado, aceptarPedido
 //agregarPedido al apicultor
+
+
+
+

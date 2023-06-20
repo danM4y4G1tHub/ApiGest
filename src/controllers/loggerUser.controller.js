@@ -152,10 +152,8 @@ export const registerBeeKeeper = async (req, res) => {
 
 export const authBeekeeper = async (req, res) => {
   try {
-    //Destructura el json para obtener cada parametro
     const { user, password } = req.body;
 
-    //Hace un llamado a la funcion getUserBeekeeper para obtener el id del usuario a loggear
     const valid = await getUserBeekeeper(user);
 
     if (valid === null) {
@@ -166,9 +164,8 @@ export const authBeekeeper = async (req, res) => {
       }
     }
 
-    //Obtiene el jsonwebtoken de ese usuario para cargar su sesion
     const { token } = generateToken(valid.idUser, res);
-    // generateRefreshToken(valid, res);
+
     res.status(202).json({
       token,
       role: "Apicultor",
